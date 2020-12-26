@@ -27,6 +27,8 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "description": "Snap2Sell - This is a platform to sell new or used things",
+    "githubUrl": "https://github.com/macismail2003/snap2sell"
   }
 }
