@@ -24,9 +24,18 @@ const styles = StyleSheet.create({
         alignItems: "center"
     },
     signup: {
-        width: "100%",
-        height:70,
-        backgroundColor: "#fff",
+        width: "30%",
+        height:50,
+        backgroundColor: "transparent",
+        position: "absolute",
+        alignContent: "center",
+        justifyContent: "center",
+        top: 60,
+        right: 20,
+        alignItems: "center",
+        borderWidth: 1,
+        borderColor: "#b2beb5",
+        borderRadius: 7
     },
     signin: {
         width: "100%",
@@ -44,7 +53,7 @@ const styles = StyleSheet.create({
     },
     logoContainer: {
         position:'absolute',
-        top: 160,
+        top: 190,
         alignItems: "center"
     },
 })
