@@ -4,7 +4,7 @@
     "slug": "snap2sell",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./app/assets/icon.png",
     "splash": {
       "image": "./app/assets/splash.png",
       "resizeMode": "contain",
@@ -26,7 +26,7 @@
       }
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./app/assets/favicon.png"
     },
     "description": "Snap2Sell - This is a platform to sell new or used things",
     "githubUrl": "https://github.com/macismail2003/snap2sell"
