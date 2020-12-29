@@ -3,10 +3,7 @@ import {
     ImageBackground,
     StyleSheet,
     View,
-    Text, 
     Image, 
-    Platform, 
-    flex,
     TouchableOpacity
  } from 'react-native';
 import AppText from "../components/AppText";
@@ -19,20 +16,21 @@ function WelcomeScreen(props) {
          source={require("../assets/background1.jpg")}>
 
              <TouchableOpacity style={styles.Login}>
-                 <Text style={styles.LoginTxt}>Log in</Text>
+                 <AppText color="black">Log in</AppText>
              </TouchableOpacity>
 
              <View style={styles.logoContainer}>
                 <Image style={styles.logo } source={require("../assets/logo.png")}></Image>
-                <Text>A platform to sell new or used things</Text>
+                <AppText color="dodgerblue">A platform to sell new or used things</AppText>
              </View>
 
              <TouchableOpacity style={styles.signup}>
-                 <AppText>Signup for an account</AppText>
+                 <AppText color="white">Signup for an account</AppText>
              </TouchableOpacity>
 
              <TouchableOpacity style={styles.fb}>
-                  <Entypo style={{padding: 10}} name="facebook" size={24} color="white" /><AppText> Continue with facebook</AppText>
+                  <Entypo style={{padding: 10}} name="facebook" size={24} color="white" />
+                  <AppText color="white"> Continue with facebook</AppText>
              </TouchableOpacity>
 
         </ImageBackground>
@@ -58,11 +56,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "#b2beb5",
         borderRadius: 7
-    },
-    LoginTxt:{
-        fontWeight: "700",
-        fontSize: 20,
-        fontFamily: Platform.OS === "ios" ? "Avenir" : "Roboto"
     },
     signup: {
         width: "85%",

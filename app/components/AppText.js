@@ -1,8 +1,8 @@
 import React from 'react';
 import { Text, StyleSheet, Platform } from 'react-native';
 
-function AppText({ children }) {
-    return <Text style={styles.text} >{children}</Text>
+function AppText({ children, color, style }) {
+    return <Text style={[styles.text, {color: color}, style ]} >{children}</Text>
 }
 
 
@@ -10,7 +10,6 @@ function AppText({ children }) {
 const styles = StyleSheet.create({
     text: {
         fontWeight: "500",
-        color: "#fff",
         ...Platform.select({
             ios: {
                 fontFamily: "Avenir",
