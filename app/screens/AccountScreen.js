@@ -6,6 +6,7 @@ import ListItem from "../components/ListItem";
 import ListItemSeparatorComponent from "../components/ListItemSeparator";
 import colors from "../config/colors";
 import Icon from "../components/Icon";
+import ProfileTop from "../components/ProfileTop";
 
 const menuItems = [
   {
@@ -27,13 +28,13 @@ const menuItems = [
 function AccountScreen(props) {
   return (
     <Screen style={styles.screen}>
-      <View style={styles.container}>
-        <ListItem
-          title="Mosh Hamedani"
-          subTitle="programmingwithmosh@gmail.com"
-          image={require("../assets/mosh.jpg")}
-        />
+
+      <View style={styles.ProfileTop}>
+        
+        <ProfileTop userid="@ibrahim"  source={require("../assets/mis.jpg")}/>
+
       </View>
+
       <View style={styles.container}>
         <FlatList
           data={menuItems}
@@ -67,6 +68,9 @@ const styles = StyleSheet.create({
   container: {
     marginVertical: 20,
   },
+  ProfileTop: {
+    alignItems: "center",
+  }
 });
 
 export default AccountScreen;
