@@ -1,9 +1,9 @@
 import React from 'react';
 import { Image, View, StyleSheet} from 'react-native';
-import AppText from "./AppText";
+import AppText from "../AppText";
 
 import Constants from "expo-constants";
-import colors from "../config/colors";
+import colors from "../../config/colors";
 
 function ProfileTop({source,userid}) {
     return (
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     image:{
         width: 150,
         height: 150,
-        borderRadius: 100,
+        borderRadius: 75,
         marginBottom: 5
     },
     AppText: {
