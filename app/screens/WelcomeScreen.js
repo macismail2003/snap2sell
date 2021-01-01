@@ -20,7 +20,7 @@ function WelcomeScreen(props) {
              </TouchableOpacity>
 
              <View style={styles.logoContainer}>
-                <Image style={styles.logo } source={require("../assets/logo.png")}></Image>
+                <Image style={styles.logo} source={require("../assets/logo.png")}></Image>
                 <AppText color="dodgerblue">A platform to sell new or used things</AppText>
              </View>
 
