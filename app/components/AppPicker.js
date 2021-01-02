@@ -24,7 +24,7 @@ function AppPicker({ icon, items, onSelectItem, placeholder, selectedItem }) {
           {icon && (
             <MaterialCommunityIcons
               name={icon}
-              size={20}
+              size={29}
               color={defaultStyles.colors.medium}
               style={styles.icon}
             />
@@ -66,7 +66,7 @@ const styles = StyleSheet.create({
     backgroundColor: defaultStyles.colors.light,
     borderRadius: 25,
     flexDirection: "row",
-    width: "100%",
+    width: "90%",
     padding: 15,
     marginVertical: 10,
   },

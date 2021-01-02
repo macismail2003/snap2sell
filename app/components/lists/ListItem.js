@@ -6,10 +6,10 @@ import {
   TouchableOpacity,
   TouchableHighlight,
 } from "react-native";
-import AppText from "./AppText";
+import AppText from "../AppText";
 import Swipeable from "react-native-gesture-handler/Swipeable";
 
-import colors from "../config/colors";
+import colors from "../../config/colors";
 
 function ListItem({
   title,
@@ -40,7 +40,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 15,
     backgroundColor: colors.white,
-    
   },
   detailsContainer: {
     marginLeft: 10,

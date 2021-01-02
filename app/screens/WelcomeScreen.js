@@ -9,6 +9,7 @@ import {
 import AppText from "../components/AppText";
 import { Entypo } from '@expo/vector-icons';
 
+
 function WelcomeScreen(props) {
     return (
         <ImageBackground
@@ -16,21 +17,21 @@ function WelcomeScreen(props) {
          source={require("../assets/background1.jpg")}>
 
              <TouchableOpacity style={styles.Login}>
-                 <AppText color="black">Log in</AppText>
-             </TouchableOpacity>
+                 <AppText style = {{color:"black"}}>Log in</AppText>
+             </TouchableOpacity> 
 
              <View style={styles.logoContainer}>
                 <Image style={styles.logo} source={require("../assets/logo.png")}></Image>
-                <AppText color="dodgerblue">A platform to sell new or used things</AppText>
+                <AppText style = {{color:"dodgerblue"}}>A platform to sell new or used things</AppText>
              </View>
 
              <TouchableOpacity style={styles.signup}>
-                 <AppText color="white">Signup for an account</AppText>
+                 <AppText style = {{color:"white"}}>Signup for an account</AppText>
              </TouchableOpacity>
 
              <TouchableOpacity style={styles.fb}>
                   <Entypo style={{padding: 10}} name="facebook" size={24} color="white" />
-                  <AppText color="white"> Continue with facebook</AppText>
+                  <AppText style = {{color:"white"}}> Continue with facebook</AppText>
              </TouchableOpacity>
 
         </ImageBackground>

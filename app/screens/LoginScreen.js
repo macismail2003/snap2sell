@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, Image } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import * as Yup from "yup";
 
 import Screen from "../components/Screen";
@@ -13,8 +13,8 @@ const validationSchema = Yup.object().shape({
 function LoginScreen(props) {
   return (
     <Screen style={styles.container}>
-      <Image style={styles.logo} source={require("../assets/logo-red.png")} />
-
+      <Image style={styles.logo} source={require("../assets/logo.png")} />
+      <View style = {{paddingTop: 200}}>
       <AppForm
         initialValues={{ email: "", password: "" }}
         onSubmit={(values) => console.log(values)}
@@ -38,8 +38,9 @@ function LoginScreen(props) {
           secureTextEntry
           textContentType="password"
         />
-        <SubmitButton title="Login" />
+        <SubmitButton style = {styles.button} title="Login" />
       </AppForm>
+      </View>
     </Screen>
   );
 }
@@ -49,11 +50,14 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   logo: {
-    width: 80,
-    height: 80,
+    width: 160,
+    height: 160,
     alignSelf: "center",
     marginTop: 50,
     marginBottom: 20,
+  },
+  button : {
+    top: 20
   },
 });
 
