@@ -6,7 +6,7 @@ import {
     Image, 
     TouchableOpacity
  } from 'react-native';
-import AppText from "../components/AppText";
+import AppText from "../components/Text";
 import { Entypo } from '@expo/vector-icons';
 
 
