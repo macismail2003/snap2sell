@@ -1,7 +1,7 @@
 import React from 'react';
 import {View ,StyleSheet } from 'react-native';
 import Icon from "../Icon";
-import AppText from "../Text";
+import AppText from "../AppText";
 
 
 function ProfileBottom({name, backgroundColor, Title}) {
