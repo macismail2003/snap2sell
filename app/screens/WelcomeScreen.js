@@ -25,9 +25,9 @@ function WelcomeScreen(props) {
                 <AppText style = {{color:"dodgerblue"}}>A platform to sell new or used things</AppText>
              </View>
 
-             <TouchableOpacity style={styles.signup}>
+              <TouchableOpacity style={styles.signup}>
                  <AppText style = {{color:"white"}}>Signup for an account</AppText>
-             </TouchableOpacity>
+             </TouchableOpacity> 
 
              <TouchableOpacity style={styles.fb}>
                   <Entypo style={{padding: 10}} name="facebook" size={24} color="white" />
