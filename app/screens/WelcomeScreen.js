@@ -10,14 +10,14 @@ import AppText from "../components/AppText";
 import { Entypo } from '@expo/vector-icons';
 
 
-function WelcomeScreen(props) {
+function WelcomeScreen({navigation}) {
     return (
         <ImageBackground
          style={styles.background}
          source={require("../assets/background1.jpg")}>
 
              <TouchableOpacity style={styles.Login}>
-                 <AppText style = {{color:"black"}}>Log in</AppText>
+                 <AppText style = {{color:"black"}} onPress = {() => Navigation.navigate("Login")}>Log in</AppText>
              </TouchableOpacity> 
 
              <View style={styles.logoContainer}>
@@ -26,7 +26,7 @@ function WelcomeScreen(props) {
              </View>
 
               <TouchableOpacity style={styles.signup}>
-                 <AppText style = {{color:"white"}}>Signup for an account</AppText>
+                 <AppText style = {{color:"white"}} onPress = {() => Navigation.navigate("Register")}>Signup for an account</AppText>
              </TouchableOpacity> 
 
              <TouchableOpacity style={styles.fb}>
