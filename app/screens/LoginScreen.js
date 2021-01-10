@@ -14,7 +14,6 @@ function LoginScreen(props) {
   return (
     <Screen style={styles.container}>
       <Image style={styles.logo} source={require("../assets/logo.png")} />
-      <View style = {{paddingTop: 200}}>
       <AppForm
         initialValues={{ email: "", password: "" }}
         onSubmit={(values) => console.log(values)}
@@ -38,9 +37,8 @@ function LoginScreen(props) {
           secureTextEntry
           textContentType="password"
         />
-        <SubmitButton style = {styles.button} title="Login" />
+        <SubmitButton title="Login" />
       </AppForm>
-      </View>
     </Screen>
   );
 }
@@ -50,14 +48,11 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   logo: {
-    width: 160,
-    height: 160,
+    width: 100,
+    height: 100,
     alignSelf: "center",
     marginTop: 50,
-    marginBottom: 20,
-  },
-  button : {
-    top: 20
+    marginBottom: 30,
   },
 });
 
