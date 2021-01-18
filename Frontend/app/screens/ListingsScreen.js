@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FlatList, StyleSheet } from "react-native";
 import listingsApi from "../api/listings";
 import Screen from "../components/Screen";
@@ -7,48 +7,37 @@ import Card from "../components/Card";
 import colors from "../config/colors";
 import Button from "../components/AppButton";
 import AppText from "../components/AppText";
-import { useState } from "react";
-import { useEffect } from "react";
-
+import useApi from "../hooks/useApi";
+import routes from "../navigation/routes";
 
 function ListingsScreen({ navigation }) {
-  const [listings, setListings] = useState([]);
-  const [error, setError] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const getListingsApi = useApi(listingsApi.getListings);
 
-  useEffect (()=>{
-    loadListings();
+  useEffect(() => {
+    getListingsApi.request();
   }, []);
 
-  const loadListings = async () => {
-    setLoading(true);
-    const response = await listingsApi.getListings();
-    setLoading(false);
-
-    if(!response.ok) return setError(true);
-    
-    setError(false);
-    setListings(response.data);
-  }
   return (
     <Screen style={styles.screen}>
-      {error && (<>
-      <AppText>Could not load the listings</AppText>
-      <Button title={Retry} onPress={loadListings}/>
-      </>)}
-      <ActivityIndicator visible={true}/>
-      {/* <FlatList
-        data={listings}
+      {getListingsApi.error && (
+        <>
+          <AppText>Couldn't retrieve the listings.</AppText>
+          <Button title="Retry" onPress={getListingsApi.request} />
+        </>
+      )}
+      <ActivityIndicator visible={getListingsApi.loading} />
+      <FlatList
+        data={getListingsApi.data}
         keyExtractor={(listing) => listing.id.toString()}
         renderItem={({ item }) => (
           <Card
             title={item.title}
             subTitle={"$" + item.price}
             imageUrl={item.images[0].url}
-            onPress={()=> {navigation.navigate("ListingDetails", item)}}
+            onPress={() => navigation.navigate(routes.LISTING_DETAILS, item)}
           />
         )}
-      /> */}
+      />
     </Screen>
   );
 }
