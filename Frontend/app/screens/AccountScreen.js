@@ -30,7 +30,7 @@ const menuItems = [
   {
     title: "Settings",
     backgroundColor: "dodgerblue",
-    name: "cog",
+    name: "settings",
     // TargetScreen: "Settings"
   },
   {
