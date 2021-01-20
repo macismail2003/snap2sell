@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -7,42 +7,35 @@
 
 #import "RCTImageComponentView.h"
 
-#import <React/RCTImageResponseDelegate.h>
 #import <React/RCTImageResponseObserverProxy.h>
 #import <react/components/image/ImageComponentDescriptor.h>
 #import <react/components/image/ImageEventEmitter.h>
+#import <react/components/image/ImageLocalData.h>
 #import <react/components/image/ImageProps.h>
-#import <react/imagemanager/ImageInstrumentation.h>
 #import <react/imagemanager/ImageRequest.h>
-#import <react/imagemanager/RCTImageInstrumentationProxy.h>
 #import <react/imagemanager/RCTImagePrimitivesConversions.h>
 
 #import "RCTConversions.h"
-#import "RCTFabricComponentsPlugins.h"
-
-using namespace facebook::react;
-
-@interface RCTImageComponentView () <RCTImageResponseDelegate>
-@end
 
 @implementation RCTImageComponentView {
   UIImageView *_imageView;
-  ImageShadowNode::ConcreteState::Shared _state;
-  ImageResponseObserverCoordinator const *_coordinator;
-  RCTImageResponseObserverProxy _imageResponseObserverProxy;
+  SharedImageLocalData _imageLocalData;
+  const ImageResponseObserverCoordinator *_coordinator;
+  std::unique_ptr<RCTImageResponseObserverProxy> _imageResponseObserverProxy;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
   if (self = [super initWithFrame:frame]) {
-    static auto const defaultProps = std::make_shared<ImageProps const>();
+    static const auto defaultProps = std::make_shared<const ImageProps>();
     _props = defaultProps;
 
     _imageView = [[UIImageView alloc] initWithFrame:self.bounds];
     _imageView.clipsToBounds = YES;
+
     _imageView.contentMode = (UIViewContentMode)RCTResizeModeFromImageResizeMode(defaultProps->resizeMode);
 
-    _imageResponseObserverProxy = RCTImageResponseObserverProxy(self);
+    _imageResponseObserverProxy = std::make_unique<RCTImageResponseObserverProxy>((__bridge void *)self);
 
     self.contentView = _imageView;
   }
@@ -59,8 +52,8 @@ using namespace facebook::react;
 
 - (void)updateProps:(Props::Shared const &)props oldProps:(Props::Shared const &)oldProps
 {
-  auto const &oldImageProps = *std::static_pointer_cast<ImageProps const>(_props);
-  auto const &newImageProps = *std::static_pointer_cast<ImageProps const>(props);
+  const auto &oldImageProps = *std::static_pointer_cast<const ImageProps>(_props);
+  const auto &newImageProps = *std::static_pointer_cast<const ImageProps>(props);
 
   // `resizeMode`
   if (oldImageProps.resizeMode != newImageProps.resizeMode) {
@@ -81,41 +74,40 @@ using namespace facebook::react;
   [super updateProps:props oldProps:oldProps];
 }
 
-- (void)updateState:(State::Shared const &)state oldState:(State::Shared const &)oldState
+- (void)updateLocalData:(SharedLocalData)localData oldLocalData:(SharedLocalData)oldLocalData
 {
-  _state = std::static_pointer_cast<ImageShadowNode::ConcreteState const>(state);
-  auto _oldState = std::static_pointer_cast<ImageShadowNode::ConcreteState const>(oldState);
-  auto data = _state->getData();
+  auto imageLocalData = std::static_pointer_cast<const ImageLocalData>(localData);
 
-  // This call (setting `coordinator`) must be unconditional (at the same block as setting `State`)
-  // because the setter stores a raw pointer to object that `State` owns.
-  self.coordinator = &data.getImageRequest().getObserverCoordinator();
+  // This call (setting `coordinator`) must be unconditional (at the same block as setting `LocalData`)
+  // because the setter stores a raw pointer to object that `LocalData` owns.
+  self.coordinator = imageLocalData ? &imageLocalData->getImageRequest().getObserverCoordinator() : nullptr;
 
-  bool havePreviousData = _oldState && _oldState->getData().getImageSource() != ImageSource{};
+  auto previousData = _imageLocalData;
+  _imageLocalData = imageLocalData;
 
-  if (!havePreviousData || data.getImageSource() != _oldState->getData().getImageSource()) {
+  if (!_imageLocalData) {
+    // This might happen in very rare cases (e.g. inside a subtree inside a node with `display: none`).
+    // That's quite normal.
+    return;
+  }
+
+  bool havePreviousData = previousData != nullptr;
+
+  if (!havePreviousData || _imageLocalData->getImageSource() != previousData->getImageSource()) {
     // Loading actually starts a little before this, but this is the first time we know
     // the image is loading and can fire an event from this component
-    std::static_pointer_cast<ImageEventEmitter const>(_eventEmitter)->onLoadStart();
-
-    // TODO (T58941612): Tracking for visibility should be done directly on this class.
-    // For now, we consolidate instrumentation logic in the image loader, so that pre-Fabric gets the same treatment.
-    auto instrumentation = std::static_pointer_cast<RCTImageInstrumentationProxy const>(
-        data.getImageRequest().getSharedImageInstrumentation());
-    if (instrumentation) {
-      instrumentation->trackNativeImageView(self);
-    }
+    std::static_pointer_cast<const ImageEventEmitter>(_eventEmitter)->onLoadStart();
   }
 }
 
-- (void)setCoordinator:(ImageResponseObserverCoordinator const *)coordinator
+- (void)setCoordinator:(const ImageResponseObserverCoordinator *)coordinator
 {
   if (_coordinator) {
-    _coordinator->removeObserver(_imageResponseObserverProxy);
+    _coordinator->removeObserver(_imageResponseObserverProxy.get());
   }
   _coordinator = coordinator;
   if (_coordinator != nullptr) {
-    _coordinator->addObserver(_imageResponseObserverProxy);
+    _coordinator->addObserver(_imageResponseObserverProxy.get());
   }
 }
 
@@ -124,29 +116,29 @@ using namespace facebook::react;
   [super prepareForRecycle];
   self.coordinator = nullptr;
   _imageView.image = nil;
-  _state.reset();
+  _imageLocalData.reset();
 }
 
 - (void)dealloc
 {
   self.coordinator = nullptr;
+  _imageResponseObserverProxy.reset();
 }
 
 #pragma mark - RCTImageResponseDelegate
 
-- (void)didReceiveImage:(UIImage *)image fromObserver:(void const *)observer
+- (void)didReceiveImage:(UIImage *)image fromObserver:(void *)observer
 {
-  if (!_eventEmitter || !_state) {
+  if (!_eventEmitter) {
     // Notifications are delivered asynchronously and might arrive after the view is already recycled.
     // In the future, we should incorporate an `EventEmitter` into a separate object owned by `ImageRequest` or `State`.
     // See for more info: T46311063.
     return;
   }
 
-  std::static_pointer_cast<ImageEventEmitter const>(_eventEmitter)->onLoad();
-  std::static_pointer_cast<ImageEventEmitter const>(_eventEmitter)->onLoadEnd();
+  std::static_pointer_cast<const ImageEventEmitter>(_eventEmitter)->onLoad();
 
-  const auto &imageProps = *std::static_pointer_cast<ImageProps const>(_props);
+  const auto &imageProps = *std::static_pointer_cast<const ImageProps>(_props);
 
   if (imageProps.tintColor) {
     image = [image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
@@ -167,38 +159,27 @@ using namespace facebook::react;
   self->_imageView.layer.minificationFilter = kCAFilterTrilinear;
   self->_imageView.layer.magnificationFilter = kCAFilterTrilinear;
 
-  auto data = _state->getData();
-  auto instrumentation = std::static_pointer_cast<RCTImageInstrumentationProxy const>(
-      data.getImageRequest().getSharedImageInstrumentation());
-  if (instrumentation) {
-    instrumentation->didSetImage();
-  }
+  std::static_pointer_cast<const ImageEventEmitter>(self->_eventEmitter)->onLoadEnd();
 }
 
-- (void)didReceiveProgress:(float)progress fromObserver:(void const *)observer
+- (void)didReceiveProgress:(float)progress fromObserver:(void *)observer
 {
   if (!_eventEmitter) {
     return;
   }
 
-  std::static_pointer_cast<ImageEventEmitter const>(_eventEmitter)->onProgress(progress);
+  std::static_pointer_cast<const ImageEventEmitter>(_eventEmitter)->onProgress(progress);
 }
 
-- (void)didReceiveFailureFromObserver:(void const *)observer
+- (void)didReceiveFailureFromObserver:(void *)observer
 {
+  if (!_eventEmitter) {
+    return;
+  }
+
   _imageView.image = nil;
 
-  if (!_eventEmitter) {
-    return;
-  }
-
-  std::static_pointer_cast<ImageEventEmitter const>(_eventEmitter)->onError();
-  std::static_pointer_cast<ImageEventEmitter const>(_eventEmitter)->onLoadEnd();
+  std::static_pointer_cast<const ImageEventEmitter>(_eventEmitter)->onError();
 }
 
 @end
-
-Class<RCTComponentViewProtocol> RCTImageCls(void)
-{
-  return RCTImageComponentView.class;
-}

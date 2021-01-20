@@ -1,17 +1,16 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * <p>This source code is licensed under the MIT license found in the LICENSE file in the root
+ * directory of this source tree.
  */
-
 package com.facebook.react.views.drawer;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import androidx.drawerlayout.widget.DrawerLayout;
-import com.facebook.common.logging.FLog;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.common.ReactConstants;
 import com.facebook.react.uimanager.events.NativeGestureUtil;
@@ -41,7 +40,7 @@ import com.facebook.react.uimanager.events.NativeGestureUtil;
       // Log and ignore the error. This seems to be a bug in the android SDK and
       // this is the commonly accepted workaround.
       // https://tinyurl.com/mw6qkod (Stack Overflow)
-      FLog.w(ReactConstants.TAG, "Error intercepting touch event.", e);
+      Log.w(ReactConstants.TAG, "Error intercepting touch event.", e);
     }
 
     return false;

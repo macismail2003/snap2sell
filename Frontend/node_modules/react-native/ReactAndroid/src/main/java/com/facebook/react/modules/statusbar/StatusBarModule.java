@@ -1,10 +1,9 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * <p>This source code is licensed under the MIT license found in the LICENSE file in the root
+ * directory of this source tree.
  */
-
 package com.facebook.react.modules.statusbar;
 
 import android.animation.ArgbEvaluator;
@@ -19,10 +18,11 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import com.facebook.common.logging.FLog;
-import com.facebook.fbreact.specs.NativeStatusBarManagerAndroidSpec;
 import com.facebook.react.bridge.GuardedRunnable;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.UiThreadUtil;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.common.ReactConstants;
@@ -32,7 +32,7 @@ import java.util.Map;
 
 /** {@link NativeModule} that allows changing the appearance of the status bar. */
 @ReactModule(name = StatusBarModule.NAME)
-public class StatusBarModule extends NativeStatusBarManagerAndroidSpec {
+public class StatusBarModule extends ReactContextBaseJavaModule {
 
   private static final String HEIGHT_KEY = "HEIGHT";
   private static final String DEFAULT_BACKGROUND_COLOR_KEY = "DEFAULT_BACKGROUND_COLOR";
@@ -48,7 +48,7 @@ public class StatusBarModule extends NativeStatusBarManagerAndroidSpec {
   }
 
   @Override
-  public @Nullable Map<String, Object> getTypedExportedConstants() {
+  public @Nullable Map<String, Object> getConstants() {
     final Context context = getReactApplicationContext();
     final Activity activity = getCurrentActivity();
 
@@ -69,10 +69,8 @@ public class StatusBarModule extends NativeStatusBarManagerAndroidSpec {
         HEIGHT_KEY, height, DEFAULT_BACKGROUND_COLOR_KEY, statusBarColorString);
   }
 
-  @Override
-  public void setColor(final double colorDouble, final boolean animated) {
-    final int color = (int) colorDouble;
-
+  @ReactMethod
+  public void setColor(final int color, final boolean animated) {
     final Activity activity = getCurrentActivity();
     if (activity == null) {
       FLog.w(
@@ -115,7 +113,7 @@ public class StatusBarModule extends NativeStatusBarManagerAndroidSpec {
     }
   }
 
-  @Override
+  @ReactMethod
   public void setTranslucent(final boolean translucent) {
     final Activity activity = getCurrentActivity();
     if (activity == null) {
@@ -157,7 +155,7 @@ public class StatusBarModule extends NativeStatusBarManagerAndroidSpec {
     }
   }
 
-  @Override
+  @ReactMethod
   public void setHidden(final boolean hidden) {
     final Activity activity = getCurrentActivity();
     if (activity == null) {
@@ -181,7 +179,7 @@ public class StatusBarModule extends NativeStatusBarManagerAndroidSpec {
         });
   }
 
-  @Override
+  @ReactMethod
   public void setStyle(@Nullable final String style) {
     final Activity activity = getCurrentActivity();
     if (activity == null) {

@@ -1,13 +1,11 @@
-/*
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
+// Copyright (c) Facebook, Inc. and its affiliates.
+//
+// This source code is licensed under the MIT license found in the
+// LICENSE file in the root directory of this source tree.
 
 #import <React/RCTInspector.h>
 
-#if RCT_DEV
+#if RCT_DEV && !TARGET_OS_UIKITFORMAC
 
 #include <jsinspector/InspectorInterfaces.h>
 
@@ -25,20 +23,18 @@ using namespace facebook::react;
 // please keep consistent :)
 
 class RemoteConnection : public IRemoteConnection {
- public:
-  RemoteConnection(RCTInspectorRemoteConnection *connection) : _connection(connection) {}
+public:
+RemoteConnection(RCTInspectorRemoteConnection *connection) :
+  _connection(connection) {}
 
-  virtual void onMessage(std::string message) override
-  {
+  virtual void onMessage(std::string message) override {
     [_connection onMessage:@(message.c_str())];
   }
 
-  virtual void onDisconnect() override
-  {
+  virtual void onDisconnect() override {
     [_connection onDisconnect];
   }
-
- private:
+private:
   const RCTInspectorRemoteConnection *_connection;
 };
 
@@ -47,7 +43,9 @@ class RemoteConnection : public IRemoteConnection {
   NSString *_title;
   NSString *_vm;
 }
-- (instancetype)initWithId:(NSInteger)id title:(NSString *)title vm:(NSString *)vm;
+- (instancetype)initWithId:(NSInteger)id
+                     title:(NSString *)title
+                     vm:(NSString *)vm;
 @end
 
 @interface RCTInspectorLocalConnection () {
@@ -63,7 +61,7 @@ static IInspector *getInstance()
 
 @implementation RCTInspector
 
-RCT_NOT_IMPLEMENTED(-(instancetype)init)
+RCT_NOT_IMPLEMENTED(- (instancetype)init)
 
 + (NSArray<RCTInspectorPage *> *)pages
 {
@@ -72,8 +70,9 @@ RCT_NOT_IMPLEMENTED(-(instancetype)init)
   for (size_t i = 0; i < pages.size(); i++) {
     RCTInspectorPage *pageWrapper = [[RCTInspectorPage alloc] initWithId:pages[i].id
                                                                    title:@(pages[i].title.c_str())
-                                                                      vm:@(pages[i].vm.c_str())];
+                                                                   vm:@(pages[i].vm.c_str())];
     [array addObject:pageWrapper];
+
   }
   return array;
 }
@@ -89,9 +88,11 @@ RCT_NOT_IMPLEMENTED(-(instancetype)init)
 
 @implementation RCTInspectorPage
 
-RCT_NOT_IMPLEMENTED(-(instancetype)init)
+RCT_NOT_IMPLEMENTED(- (instancetype)init)
 
-- (instancetype)initWithId:(NSInteger)id title:(NSString *)title vm:(NSString *)vm
+- (instancetype)initWithId:(NSInteger)id
+                     title:(NSString *)title
+                        vm:(NSString *)vm
 {
   if (self = [super init]) {
     _id = id;
@@ -105,7 +106,7 @@ RCT_NOT_IMPLEMENTED(-(instancetype)init)
 
 @implementation RCTInspectorLocalConnection
 
-RCT_NOT_IMPLEMENTED(-(instancetype)init)
+RCT_NOT_IMPLEMENTED(- (instancetype)init)
 
 - (instancetype)initWithConnection:(std::unique_ptr<ILocalConnection>)connection
 {

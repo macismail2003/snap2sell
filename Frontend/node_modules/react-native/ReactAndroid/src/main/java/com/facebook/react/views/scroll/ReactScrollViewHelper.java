@@ -1,17 +1,16 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * <p>This source code is licensed under the MIT license found in the LICENSE file in the root
+ * directory of this source tree.
  */
-
 package com.facebook.react.views.scroll;
 
 import android.view.View;
 import android.view.ViewGroup;
 import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
 import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.uimanager.UIManagerHelper;
+import com.facebook.react.uimanager.UIManagerModule;
 
 /** Helper class that deals with emitting Scroll Events. */
 public class ReactScrollViewHelper {
@@ -57,7 +56,9 @@ public class ReactScrollViewHelper {
     }
 
     ReactContext reactContext = (ReactContext) scrollView.getContext();
-    UIManagerHelper.getEventDispatcherForReactTag(reactContext, scrollView.getId())
+    reactContext
+        .getNativeModule(UIManagerModule.class)
+        .getEventDispatcher()
         .dispatchEvent(
             ScrollEvent.obtain(
                 scrollView.getId(),

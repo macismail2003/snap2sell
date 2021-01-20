@@ -12,8 +12,8 @@
 
 const RNTesterTitle = require('./RNTesterTitle');
 const React = require('react');
+
 const {ScrollView, StyleSheet, View} = require('react-native');
-import {RNTesterThemeContext} from './RNTesterTheme';
 
 type Props = $ReadOnly<{|
   children?: React.Node,
@@ -39,29 +39,20 @@ class RNTesterPage extends React.Component<Props> {
     ) : null;
     const spacer = this.props.noSpacer ? null : <View style={styles.spacer} />;
     return (
-      <RNTesterThemeContext.Consumer>
-        {theme => {
-          return (
-            <View
-              style={[
-                styles.container,
-                {backgroundColor: theme.SecondarySystemBackgroundColor},
-              ]}>
-              {title}
-              <ContentWrapper style={styles.wrapper} {...wrapperProps}>
-                {this.props.children}
-                {spacer}
-              </ContentWrapper>
-            </View>
-          );
-        }}
-      </RNTesterThemeContext.Consumer>
+      <View style={styles.container}>
+        {title}
+        <ContentWrapper style={styles.wrapper} {...wrapperProps}>
+          {this.props.children}
+          {spacer}
+        </ContentWrapper>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#e9eaed',
     flex: 1,
   },
   spacer: {

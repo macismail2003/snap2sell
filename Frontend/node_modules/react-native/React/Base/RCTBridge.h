@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -22,6 +22,7 @@
  * This notification fires when the bridge initializes.
  */
 RCT_EXTERN NSString *const RCTJavaScriptWillStartLoadingNotification;
+
 
 /**
  * This notification fires when the bridge starts executing the JS bundle.
@@ -67,15 +68,10 @@ RCT_EXTERN NSString *const RCTDidSetupModuleNotificationModuleNameKey;
 RCT_EXTERN NSString *const RCTDidSetupModuleNotificationSetupTimeKey;
 
 /**
- * DEPRECATED - Use RCTReloadCommand instead. This notification fires just before the bridge starts
- * processing a request to reload.
+ * This notification fires just before the bridge starts processing a request to
+ * reload.
  */
 RCT_EXTERN NSString *const RCTBridgeWillReloadNotification;
-
-/**
- * This notification fires whenever a fast refresh happens.
- */
-RCT_EXTERN NSString *const RCTBridgeFastRefreshNotification;
 
 /**
  * This notification fires just before the bridge begins downloading a script
@@ -102,22 +98,10 @@ RCT_EXTERN NSString *const RCTBridgeWillInvalidateModulesNotification;
 RCT_EXTERN NSString *const RCTBridgeDidInvalidateModulesNotification;
 
 /**
- * This notification fires right before the bridge starting invalidation process.
- * Handle this notification to perform additional invalidation.
- * The notification can be issued on any thread.
- */
-RCT_EXTERN NSString *const RCTBridgeWillBeInvalidatedNotification;
-
-/**
  * Key for the RCTSource object in the RCTBridgeDidDownloadScriptNotification
  * userInfo dictionary.
  */
 RCT_EXTERN NSString *const RCTBridgeDidDownloadScriptNotificationSourceKey;
-
-/**
- * Key for the reload reason in the RCTBridgeWillReloadNotification userInfo dictionary.
- */
-RCT_EXTERN NSString *const RCTBridgeDidDownloadScriptNotificationReasonKey;
 
 /**
  * Key for the bridge description (NSString_ in the
@@ -133,7 +117,7 @@ RCT_EXTERN NSString *const RCTBridgeDidDownloadScriptNotificationBridgeDescripti
  * For this reason, the block should always return new module instances, and
  * module instances should not be shared between bridges.
  */
-typedef NSArray<id<RCTBridgeModule>> * (^RCTBridgeModuleListProvider)(void);
+typedef NSArray<id<RCTBridgeModule>> *(^RCTBridgeModuleListProvider)(void);
 
 /**
  * This function returns the module name for a given class.
@@ -161,7 +145,8 @@ RCT_EXTERN void RCTEnableTurboModule(BOOL enabled);
  * pre-initialized module instances if they require additional init parameters
  * or configuration.
  */
-- (instancetype)initWithDelegate:(id<RCTBridgeDelegate>)delegate launchOptions:(NSDictionary *)launchOptions;
+- (instancetype)initWithDelegate:(id<RCTBridgeDelegate>)delegate
+                   launchOptions:(NSDictionary *)launchOptions;
 
 /**
  * DEPRECATED: Use initWithDelegate:launchOptions: instead
@@ -183,10 +168,7 @@ RCT_EXTERN void RCTEnableTurboModule(BOOL enabled);
  * with the JavaScript code. Safe to call from any thread.
  */
 - (void)enqueueJSCall:(NSString *)moduleDotMethod args:(NSArray *)args;
-- (void)enqueueJSCall:(NSString *)module
-               method:(NSString *)method
-                 args:(NSArray *)args
-           completion:(dispatch_block_t)completion;
+- (void)enqueueJSCall:(NSString *)module method:(NSString *)method args:(NSArray *)args completion:(dispatch_block_t)completion;
 
 /**
  * This method registers the file path of an additional JS segment by its ID.
@@ -272,22 +254,12 @@ RCT_EXTERN void RCTEnableTurboModule(BOOL enabled);
 /**
  * Reload the bundle and reset executor & modules. Safe to call from any thread.
  */
-- (void)reload __deprecated_msg("Use RCTReloadCommand instead");
-
-/**
- * Reload the bundle and reset executor & modules. Safe to call from any thread.
- */
-- (void)reloadWithReason:(NSString *)reason __deprecated_msg("Use RCTReloadCommand instead");
-
-/**
- * Handle notifications for a fast refresh. Safe to call from any thread.
- */
-- (void)onFastRefresh;
+- (void)reload;
 
 /**
  * Inform the bridge, and anything subscribing to it, that it should reload.
  */
-- (void)requestReload __deprecated_msg("Use RCTReloadCommand instead");
+- (void)requestReload __deprecated_msg("Call reload instead");
 
 /**
  * Says whether bridge has started receiving calls from javascript.

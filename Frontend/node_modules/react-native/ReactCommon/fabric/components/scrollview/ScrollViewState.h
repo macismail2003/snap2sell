@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -29,14 +29,9 @@ class ScrollViewState final {
 
 #ifdef ANDROID
   ScrollViewState() = default;
-  ScrollViewState(ScrollViewState const &previousState, folly::dynamic data)
-      : contentOffset({(Float)data["contentOffsetLeft"].getDouble(),
-                       (Float)data["contentOffsetTop"].getDouble()}),
-        contentBoundingRect({}){};
-
+  ScrollViewState(folly::dynamic data){};
   folly::dynamic getDynamic() const {
-    return folly::dynamic::object("contentOffsetLeft", contentOffset.x)(
-        "contentOffsetTop", contentOffset.y);
+    return {};
   };
 #endif
 };

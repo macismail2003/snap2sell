@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Image } from "react-native";
+import { StyleSheet, Image } from "react-native";
 import * as Yup from "yup";
 
 import Screen from "../components/Screen";

@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -21,11 +21,11 @@ namespace react {
  * don't have a state.
  */
 struct StateData final {
-  using Shared = std::shared_ptr<void const>;
+  using Shared = std::shared_ptr<void>;
 
 #ifdef ANDROID
   StateData() = default;
-  StateData(StateData const &previousState, folly::dynamic data){};
+  StateData(folly::dynamic data){};
   folly::dynamic getDynamic() const;
 #endif
 };

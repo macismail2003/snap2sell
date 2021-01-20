@@ -9,8 +9,8 @@
 
 'use strict';
 
-// Disable LogBox so we do not have to mock its dependencies.
-require('react-native').LogBox.ignoreAllLogs(true);
+// Disable YellowBox so we do not have to mock its dependencies
+console.disableYellowBox = true;
 
 // Include callable JS modules first, in case one of the other ones below throws
 require('./ProgressBarTestModule');
@@ -29,6 +29,7 @@ require('./ScrollViewTestModule');
 require('./ShareTestModule');
 require('./SwipeRefreshLayoutTestModule');
 require('./TextInputTestModule');
+require('./TimePickerDialogTestModule');
 
 // Define catalyst test apps used in integration tests
 const {AppRegistry} = require('react-native');
@@ -114,6 +115,11 @@ const apps = [
   {
     appKey: 'TestIdTestApp',
     component: () => require('./TestIdTestModule').TestIdTestApp,
+  },
+  {
+    appKey: 'TimePickerDialogTestApp',
+    component: () =>
+      require('./TimePickerDialogTestModule').TimePickerDialogTestApp,
   },
   {
     appKey: 'TouchBubblingTestAppModule',

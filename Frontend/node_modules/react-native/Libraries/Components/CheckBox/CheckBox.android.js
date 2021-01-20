@@ -7,23 +7,19 @@
  * @flow strict-local
  * @format
  */
-
 'use strict';
 
 const React = require('react');
 const StyleSheet = require('../../StyleSheet/StyleSheet');
-const invariant = require('invariant');
 const processColor = require('../../StyleSheet/processColor');
 
+const AndroidCheckBoxNativeComponent = require('./AndroidCheckBoxNativeComponent');
 const nullthrows = require('nullthrows');
 const setAndForwardRef = require('../../Utilities/setAndForwardRef');
 
-import AndroidCheckBoxNativeComponent, {
-  Commands as AndroidCheckBoxCommands,
-} from './AndroidCheckBoxNativeComponent';
-
 import type {ViewProps} from '../View/ViewPropTypes';
 import type {SyntheticEvent} from '../../Types/CoreEventTypes';
+import type {NativeComponent} from '../../Renderer/shims/ReactNative';
 import type {ColorValue} from '../../StyleSheet/StyleSheetTypes';
 
 type CheckBoxEvent = SyntheticEvent<
@@ -52,6 +48,16 @@ type CommonProps = $ReadOnly<{|
   testID?: ?string,
 |}>;
 
+type NativeProps = $ReadOnly<{|
+  ...CommonProps,
+
+  on?: ?boolean,
+  enabled?: boolean,
+  tintColors: {|true: ?number, false: ?number|} | typeof undefined,
+|}>;
+
+type CheckBoxNativeType = Class<NativeComponent<NativeProps>>;
+
 type Props = $ReadOnly<{|
   ...CommonProps,
 
@@ -70,7 +76,7 @@ type Props = $ReadOnly<{|
   /**
    * Used to get the ref for the native checkbox
    */
-  forwardedRef?: ?React.Ref<typeof AndroidCheckBoxNativeComponent>,
+  forwardedRef?: ?React.Ref<CheckBoxNativeType>,
 
   /**
    * Controls the colors the checkbox has in checked and unchecked states.
@@ -134,7 +140,7 @@ type Props = $ReadOnly<{|
  * @keyword toggle
  */
 class CheckBox extends React.Component<Props> {
-  _nativeRef: ?React.ElementRef<typeof AndroidCheckBoxNativeComponent> = null;
+  _nativeRef: ?React.ElementRef<CheckBoxNativeType> = null;
   _setNativeRef = setAndForwardRef({
     getForwardedRef: () => this.props.forwardedRef,
     setLocalRef: ref => {
@@ -144,7 +150,7 @@ class CheckBox extends React.Component<Props> {
 
   _onChange = (event: CheckBoxEvent) => {
     const value = this.props.value ?? false;
-    AndroidCheckBoxCommands.setNativeValue(nullthrows(this._nativeRef), value);
+    nullthrows(this._nativeRef).setNativeProps({value: value});
     // Change the props after the native props are set in case the props
     // change removes the component
     this.props.onChange && this.props.onChange(event);
@@ -152,27 +158,13 @@ class CheckBox extends React.Component<Props> {
       this.props.onValueChange(event.nativeEvent.value);
   };
 
-  _getTintColors(tintColors) {
-    if (tintColors) {
-      const processedTextColorTrue = processColor(tintColors.true);
-      invariant(
-        processedTextColorTrue == null ||
-          typeof processedTextColorTrue === 'number',
-        'Unexpected color given for tintColors.true',
-      );
-      const processedTextColorFalse = processColor(tintColors.true);
-      invariant(
-        processedTextColorFalse == null ||
-          typeof processedTextColorFalse === 'number',
-        'Unexpected color given for tintColors.false',
-      );
-      return {
-        true: processedTextColorTrue,
-        false: processedTextColorFalse,
-      };
-    } else {
-      return undefined;
-    }
+  getTintColors(tintColors) {
+    return tintColors
+      ? {
+          true: processColor(tintColors.true),
+          false: processColor(tintColors.false),
+        }
+      : undefined;
   }
 
   render() {
@@ -193,7 +185,7 @@ class CheckBox extends React.Component<Props> {
       onResponderTerminationRequest: () => false,
       enabled: !disabled,
       on: value,
-      tintColors: this._getTintColors(tintColors),
+      tintColors: this.getTintColors(tintColors),
       style: [styles.rctCheckBox, style],
     };
     return (
@@ -213,16 +205,16 @@ const styles = StyleSheet.create({
   },
 });
 
-type CheckBoxType = React.AbstractComponent<
-  Props,
-  React.ElementRef<typeof AndroidCheckBoxNativeComponent>,
->;
+/**
+ * Can't use CheckBoxNativeType because it has different props
+ */
+type CheckBoxType = Class<NativeComponent<Props>>;
 
-const CheckBoxWithRef = React.forwardRef<
-  Props,
-  React.ElementRef<typeof AndroidCheckBoxNativeComponent>,
->(function CheckBoxWithRef(props, ref) {
+const CheckBoxWithRef = React.forwardRef(function CheckBoxWithRef(props, ref) {
   return <CheckBox {...props} forwardedRef={ref} />;
 });
 
+/* $FlowFixMe(>=0.89.0 site=react_native_android_fb) This comment suppresses an
+ * error found when Flow v0.89 was deployed. To see the error, delete this
+ * comment and run Flow. */
 module.exports = (CheckBoxWithRef: CheckBoxType);

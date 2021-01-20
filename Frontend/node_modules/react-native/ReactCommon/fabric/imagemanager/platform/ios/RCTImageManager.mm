@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -8,25 +8,22 @@
 #import "RCTImageManager.h"
 
 #import <react/debug/SystraceSection.h>
-#import <react/utils/ManagedObjectWrapper.h>
 #import <react/utils/SharedFunction.h>
 
-#import <React/RCTImageLoaderWithAttributionProtocol.h>
-
+#import <React/RCTImageLoader.h>
 #import <react/imagemanager/ImageResponse.h>
 #import <react/imagemanager/ImageResponseObserver.h>
 
-#import "RCTImageInstrumentationProxy.h"
 #import "RCTImagePrimitivesConversions.h"
 
 using namespace facebook::react;
 
 @implementation RCTImageManager {
-  id<RCTImageLoaderWithAttributionProtocol> _imageLoader;
+  RCTImageLoader *_imageLoader;
   dispatch_queue_t _backgroundSerialQueue;
 }
 
-- (instancetype)initWithImageLoader:(id<RCTImageLoaderWithAttributionProtocol>)imageLoader
+- (instancetype)initWithImageLoader:(RCTImageLoader *)imageLoader
 {
   if (self = [super init]) {
     _imageLoader = imageLoader;
@@ -37,12 +34,11 @@ using namespace facebook::react;
   return self;
 }
 
-- (ImageRequest)requestImage:(ImageSource)imageSource surfaceId:(SurfaceId)surfaceId
+- (ImageRequest)requestImage:(ImageSource)imageSource
 {
   SystraceSection s("RCTImageManager::requestImage");
 
-  auto imageInstrumentation = std::make_shared<RCTImageInstrumentationProxy>(_imageLoader);
-  auto imageRequest = ImageRequest(imageSource, imageInstrumentation);
+  auto imageRequest = ImageRequest(imageSource);
   auto weakObserverCoordinator =
       (std::weak_ptr<const ImageResponseObserverCoordinator>)imageRequest.getSharedObserverCoordinator();
 
@@ -69,7 +65,8 @@ using namespace facebook::react;
       }
 
       if (image && !error) {
-        observerCoordinator->nativeImageResponseComplete(ImageResponse(wrapManagedObject(image)));
+        auto imageResponse = ImageResponse(std::shared_ptr<void>((__bridge_retained void *)image, CFRelease));
+        observerCoordinator->nativeImageResponseComplete(std::move(imageResponse));
       } else {
         observerCoordinator->nativeImageResponseFailed();
       }
@@ -84,24 +81,17 @@ using namespace facebook::react;
       observerCoordinator->nativeImageResponseProgress(progress / (float)total);
     };
 
-    RCTImageURLLoaderRequest *loaderRequest =
+    RCTImageLoaderCancellationBlock cancelationBlock =
         [self->_imageLoader loadImageWithURLRequest:request
                                                size:CGSizeMake(imageSource.size.width, imageSource.size.height)
                                               scale:imageSource.scale
                                             clipped:YES
                                          resizeMode:RCTResizeModeStretch
-                                        attribution:{
-                                                        .surfaceId = surfaceId,
-                                                    }
                                       progressBlock:progressBlock
                                    partialLoadBlock:nil
                                     completionBlock:completionBlock];
-    RCTImageLoaderCancellationBlock cancelationBlock = loaderRequest.cancellationBlock;
-    sharedCancelationFunction.assign([cancelationBlock]() { cancelationBlock(); });
 
-    if (imageInstrumentation) {
-      imageInstrumentation->setImageURLLoaderRequest(loaderRequest);
-    }
+    sharedCancelationFunction.assign([cancelationBlock]() { cancelationBlock(); });
   });
 
   return imageRequest;

@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  * @format
- * @flow strict-local
+ * @flow
  */
 
 /* globals window: true */
@@ -23,13 +23,11 @@
  *   2. Bridged modules.
  *
  */
-
 'use strict';
 
 const start = Date.now();
 
 require('./setUpGlobals');
-require('./setUpPerformance');
 require('./setUpSystrace');
 require('./setUpErrorHandling');
 require('./polyfillPromise');

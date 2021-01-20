@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  * @format
- * @flow strict-local
+ * @flow
  */
 
 'use strict';
@@ -13,9 +13,13 @@
 const DeprecatedEdgeInsetsPropType = require('./DeprecatedEdgeInsetsPropType');
 const DeprecatedStyleSheetPropType = require('./DeprecatedStyleSheetPropType');
 const DeprecatedViewStylePropTypes = require('./DeprecatedViewStylePropTypes');
+const PlatformViewPropTypes = require('../Components/View/PlatformViewPropTypes');
 const PropTypes = require('prop-types');
 
-const {DeprecatedAccessibilityRoles} = require('./DeprecatedViewAccessibility');
+const {
+  DeprecatedAccessibilityRoles,
+  DeprecatedAccessibilityStates,
+} = require('./DeprecatedViewAccessibility');
 
 const stylePropType: ReactPropsCheckType = DeprecatedStyleSheetPropType(
   DeprecatedViewStylePropTypes,
@@ -26,7 +30,7 @@ module.exports = {
    * When `true`, indicates that the view is an accessibility element.
    * By default, all the touchable elements are accessible.
    *
-   * See https://reactnative.dev/docs/view.html#accessible
+   * See http://facebook.github.io/react-native/docs/view.html#accessible
    */
   accessible: PropTypes.bool,
 
@@ -35,7 +39,7 @@ module.exports = {
    * with the element. By default, the label is constructed by traversing all
    * the children and accumulating all the `Text` nodes separated by space.
    *
-   * See https://reactnative.dev/docs/view.html#accessibilitylabel
+   * See http://facebook.github.io/react-native/docs/view.html#accessibilitylabel
    */
   accessibilityLabel: PropTypes.node,
 
@@ -45,7 +49,7 @@ module.exports = {
    * accessibility label.
    *
    *
-   * See https://reactnative.dev/docs/view.html#accessibilityHint
+   * See http://facebook.github.io/react-native/docs/view.html#accessibilityHint
    */
   accessibilityHint: PropTypes.string,
 
@@ -100,15 +104,31 @@ module.exports = {
     | 'toolbar',
   >),
 
+  /**
+   * Indicates to accessibility services that UI Component is in a specific State.
+   */
+  accessibilityStates: (PropTypes.arrayOf(
+    PropTypes.oneOf(DeprecatedAccessibilityStates),
+  ): React$PropType$Primitive<
+    Array<
+      | 'selected'
+      | 'disabled'
+      | 'checked'
+      | 'unchecked'
+      | 'busy'
+      | 'expanded'
+      | 'collapsed'
+      | 'hasPopup',
+    >,
+  >),
   accessibilityState: PropTypes.object,
-  accessibilityValue: PropTypes.object,
   /**
    * Indicates to accessibility services whether the user should be notified
    * when this view changes. Works for Android API >= 19 only.
    *
    * @platform android
    *
-   * See https://reactnative.dev/docs/view.html#accessibilityliveregion
+   * See http://facebook.github.io/react-native/docs/view.html#accessibilityliveregion
    */
   accessibilityLiveRegion: (PropTypes.oneOf([
     'none',
@@ -123,7 +143,7 @@ module.exports = {
    *
    * @platform android
    *
-   * See https://reactnative.dev/docs/view.html#importantforaccessibility
+   * See http://facebook.github.io/react-native/docs/view.html#importantforaccessibility
    */
   importantForAccessibility: (PropTypes.oneOf([
     'auto',
@@ -139,7 +159,7 @@ module.exports = {
    *
    * @platform ios
    *
-   * See https://reactnative.dev/docs/view.html#accessibilityviewismodal
+   * See http://facebook.github.io/react-native/docs/view.html#accessibilityviewismodal
    */
   accessibilityViewIsModal: PropTypes.bool,
 
@@ -149,7 +169,7 @@ module.exports = {
    *
    * @platform ios
    *
-   * See https://reactnative.dev/docs/view.html#accessibilityElementsHidden
+   * See http://facebook.github.io/react-native/docs/view.html#accessibilityElementsHidden
    */
   accessibilityElementsHidden: PropTypes.bool,
 
@@ -165,7 +185,7 @@ module.exports = {
    * When `accessible` is true, the system will try to invoke this function
    * when the user performs accessibility tap gesture.
    *
-   * See https://reactnative.dev/docs/view.html#onaccessibilitytap
+   * See http://facebook.github.io/react-native/docs/view.html#onaccessibilitytap
    */
   onAccessibilityTap: PropTypes.func,
 
@@ -173,7 +193,7 @@ module.exports = {
    * When `accessible` is `true`, the system will invoke this function when the
    * user performs the magic tap gesture.
    *
-   * See https://reactnative.dev/docs/view.html#onmagictap
+   * See http://facebook.github.io/react-native/docs/view.html#onmagictap
    */
   onMagicTap: PropTypes.func,
 
@@ -182,7 +202,7 @@ module.exports = {
    *
    * > This disables the 'layout-only view removal' optimization for this view!
    *
-   * See https://reactnative.dev/docs/view.html#testid
+   * See http://facebook.github.io/react-native/docs/view.html#testid
    */
   testID: PropTypes.string,
 
@@ -191,7 +211,7 @@ module.exports = {
    *
    * > This disables the 'layout-only view removal' optimization for this view!
    *
-   * See https://reactnative.dev/docs/view.html#nativeid
+   * See http://facebook.github.io/react-native/docs/view.html#nativeid
    */
   nativeID: PropTypes.string,
 
@@ -208,7 +228,7 @@ module.exports = {
    * `View.props.onResponderGrant: (event) => {}`, where `event` is a synthetic
    * touch event as described above.
    *
-   * See https://reactnative.dev/docs/view.html#onrespondergrant
+   * See http://facebook.github.io/react-native/docs/view.html#onrespondergrant
    */
   onResponderGrant: PropTypes.func,
 
@@ -218,7 +238,7 @@ module.exports = {
    * `View.props.onResponderMove: (event) => {}`, where `event` is a synthetic
    * touch event as described above.
    *
-   * See https://reactnative.dev/docs/view.html#onrespondermove
+   * See http://facebook.github.io/react-native/docs/view.html#onrespondermove
    */
   onResponderMove: PropTypes.func,
 
@@ -229,7 +249,7 @@ module.exports = {
    * `View.props.onResponderReject: (event) => {}`, where `event` is a
    * synthetic touch event as described above.
    *
-   * See https://reactnative.dev/docs/view.html#onresponderreject
+   * See http://facebook.github.io/react-native/docs/view.html#onresponderreject
    */
   onResponderReject: PropTypes.func,
 
@@ -239,7 +259,7 @@ module.exports = {
    * `View.props.onResponderRelease: (event) => {}`, where `event` is a
    * synthetic touch event as described above.
    *
-   * See https://reactnative.dev/docs/view.html#onresponderrelease
+   * See http://facebook.github.io/react-native/docs/view.html#onresponderrelease
    */
   onResponderRelease: PropTypes.func,
 
@@ -252,7 +272,7 @@ module.exports = {
    * `View.props.onResponderTerminate: (event) => {}`, where `event` is a
    * synthetic touch event as described above.
    *
-   * See https://reactnative.dev/docs/view.html#onresponderterminate
+   * See http://facebook.github.io/react-native/docs/view.html#onresponderterminate
    */
   onResponderTerminate: PropTypes.func,
 
@@ -263,7 +283,7 @@ module.exports = {
    * `View.props.onResponderTerminationRequest: (event) => {}`, where `event`
    * is a synthetic touch event as described above.
    *
-   * See https://reactnative.dev/docs/view.html#onresponderterminationrequest
+   * See http://facebook.github.io/react-native/docs/view.html#onresponderterminationrequest
    */
   onResponderTerminationRequest: PropTypes.func,
 
@@ -273,7 +293,7 @@ module.exports = {
    * `View.props.onStartShouldSetResponder: (event) => [true | false]`, where
    * `event` is a synthetic touch event as described above.
    *
-   * See https://reactnative.dev/docs/view.html#onstartshouldsetresponder
+   * See http://facebook.github.io/react-native/docs/view.html#onstartshouldsetresponder
    */
   onStartShouldSetResponder: PropTypes.func,
 
@@ -284,7 +304,7 @@ module.exports = {
    * `View.props.onStartShouldSetResponderCapture: (event) => [true | false]`,
    * where `event` is a synthetic touch event as described above.
    *
-   * See https://reactnative.dev/docs/view.html#onstartshouldsetrespondercapture
+   * See http://facebook.github.io/react-native/docs/view.html#onstartshouldsetrespondercapture
    */
   onStartShouldSetResponderCapture: PropTypes.func,
 
@@ -295,7 +315,7 @@ module.exports = {
    * `View.props.onMoveShouldSetResponder: (event) => [true | false]`, where
    * `event` is a synthetic touch event as described above.
    *
-   * See https://reactnative.dev/docs/view.html#onmoveshouldsetresponder
+   * See http://facebook.github.io/react-native/docs/view.html#onmoveshouldsetresponder
    */
   onMoveShouldSetResponder: PropTypes.func,
 
@@ -306,7 +326,7 @@ module.exports = {
    * `View.props.onMoveShouldSetResponderCapture: (event) => [true | false]`,
    * where `event` is a synthetic touch event as described above.
    *
-   * See https://reactnative.dev/docs/view.html#onMoveShouldsetrespondercapture
+   * See http://facebook.github.io/react-native/docs/view.html#onMoveShouldsetrespondercapture
    */
   onMoveShouldSetResponderCapture: PropTypes.func,
 
@@ -319,7 +339,7 @@ module.exports = {
    * > of sibling views always takes precedence if a touch hits two overlapping
    * > views.
    *
-   * See https://reactnative.dev/docs/view.html#hitslop
+   * See http://facebook.github.io/react-native/docs/view.html#hitslop
    */
   hitSlop: DeprecatedEdgeInsetsPropType,
 
@@ -332,14 +352,14 @@ module.exports = {
    * the new layout may not yet be reflected on the screen at the time the
    * event is received, especially if a layout animation is in progress.
    *
-   * See https://reactnative.dev/docs/view.html#onlayout
+   * See http://facebook.github.io/react-native/docs/view.html#onlayout
    */
   onLayout: PropTypes.func,
 
   /**
    * Controls whether the `View` can be the target of touch events.
    *
-   * See https://reactnative.dev/docs/view.html#pointerevents
+   * See http://facebook.github.io/react-native/docs/view.html#pointerevents
    */
   pointerEvents: (PropTypes.oneOf([
     'box-none',
@@ -349,7 +369,7 @@ module.exports = {
   ]): React$PropType$Primitive<'box-none' | 'none' | 'box-only' | 'auto'>),
 
   /**
-   * See https://reactnative.dev/docs/style.html
+   * See http://facebook.github.io/react-native/docs/style.html
    */
   style: stylePropType,
 
@@ -361,7 +381,7 @@ module.exports = {
    * subviews must also have `overflow: hidden`, as should the containing view
    * (or one of its superviews).
    *
-   * See https://reactnative.dev/docs/view.html#removeclippedsubviews
+   * See http://facebook.github.io/react-native/docs/view.html#removeclippedsubviews
    */
   removeClippedSubviews: PropTypes.bool,
 
@@ -371,7 +391,7 @@ module.exports = {
    *
    * @platform android
    *
-   * See https://reactnative.dev/docs/view.html#rendertohardwaretextureandroid
+   * See http://facebook.github.io/react-native/docs/view.html#rendertohardwaretextureandroid
    */
   renderToHardwareTextureAndroid: PropTypes.bool,
 
@@ -380,7 +400,7 @@ module.exports = {
    *
    * @platform ios
    *
-   * See https://reactnative.dev/docs/view.html#shouldrasterizeios
+   * See http://facebook.github.io/react-native/docs/view.html#shouldrasterizeios
    */
   shouldRasterizeIOS: PropTypes.bool,
 
@@ -392,7 +412,7 @@ module.exports = {
    *
    * @platform android
    *
-   * See https://reactnative.dev/docs/view.html#collapsable
+   * See http://facebook.github.io/react-native/docs/view.html#collapsable
    */
   collapsable: PropTypes.bool,
 
@@ -402,7 +422,12 @@ module.exports = {
    *
    * @platform android
    *
-   * See https://reactnative.dev/docs/view.html#needsoffscreenalphacompositing
+   * See http://facebook.github.io/react-native/docs/view.html#needsoffscreenalphacompositing
    */
   needsOffscreenAlphaCompositing: PropTypes.bool,
+
+  /**
+   * Any additional platform-specific view prop types, or prop type overrides.
+   */
+  ...PlatformViewPropTypes,
 };

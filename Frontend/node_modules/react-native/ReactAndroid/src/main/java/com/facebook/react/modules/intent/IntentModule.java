@@ -1,10 +1,9 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * <p>This source code is licensed under the MIT license found in the LICENSE file in the root
+ * directory of this source tree.
  */
-
 package com.facebook.react.modules.intent;
 
 import android.app.Activity;
@@ -15,10 +14,11 @@ import android.net.Uri;
 import android.nfc.NfcAdapter;
 import android.provider.Settings;
 import androidx.annotation.Nullable;
-import com.facebook.fbreact.specs.NativeLinkingSpec;
 import com.facebook.react.bridge.JSApplicationIllegalArgumentException;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableType;
@@ -26,7 +26,7 @@ import com.facebook.react.module.annotations.ReactModule;
 
 /** Intent module. Launch other activities or open URLs. */
 @ReactModule(name = IntentModule.NAME)
-public class IntentModule extends NativeLinkingSpec {
+public class IntentModule extends ReactContextBaseJavaModule {
 
   public static final String NAME = "IntentAndroid";
 
@@ -44,7 +44,7 @@ public class IntentModule extends NativeLinkingSpec {
    *
    * @param promise a promise which is resolved with the initial URL
    */
-  @Override
+  @ReactMethod
   public void getInitialURL(Promise promise) {
     try {
       Activity currentActivity = getCurrentActivity();
@@ -78,7 +78,7 @@ public class IntentModule extends NativeLinkingSpec {
    *
    * @param url the URL to open
    */
-  @Override
+  @ReactMethod
   public void openURL(String url, Promise promise) {
     if (url == null || url.isEmpty()) {
       promise.reject(new JSApplicationIllegalArgumentException("Invalid URL: " + url));
@@ -120,7 +120,7 @@ public class IntentModule extends NativeLinkingSpec {
    * @param url the URL to open
    * @param promise a promise that is always resolved with a boolean argument
    */
-  @Override
+  @ReactMethod
   public void canOpenURL(String url, Promise promise) {
     if (url == null || url.isEmpty()) {
       promise.reject(new JSApplicationIllegalArgumentException("Invalid URL: " + url));
@@ -147,7 +147,7 @@ public class IntentModule extends NativeLinkingSpec {
    *
    * @param promise a promise which is resolved when the Settings is opened
    */
-  @Override
+  @ReactMethod
   public void openSettings(Promise promise) {
     try {
       Intent intent = new Intent();
@@ -181,7 +181,7 @@ public class IntentModule extends NativeLinkingSpec {
    * @param action The general action to be performed
    * @param extras An array of extras [{ String, String | Number | Boolean }]
    */
-  @Override
+  @ReactMethod
   public void sendIntent(String action, @Nullable ReadableArray extras, Promise promise) {
     if (action == null || action.isEmpty()) {
       promise.reject(new JSApplicationIllegalArgumentException("Invalid Action: " + action + "."));
@@ -236,15 +236,5 @@ public class IntentModule extends NativeLinkingSpec {
     }
 
     getReactApplicationContext().startActivity(intent);
-  }
-
-  @Override
-  public void addListener(String eventName) {
-    // iOS only
-  }
-
-  @Override
-  public void removeListeners(double count) {
-    // iOS only
   }
 }

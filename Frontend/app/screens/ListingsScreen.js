@@ -1,14 +1,15 @@
 import React, { useEffect } from "react";
 import { FlatList, StyleSheet } from "react-native";
-import listingsApi from "../api/listings";
-import Screen from "../components/Screen";
+
 import ActivityIndicator from "../components/ActivityIndicator";
+import Button from "../components/Button";
 import Card from "../components/Card";
 import colors from "../config/colors";
-import Button from "../components/AppButton";
+import listingsApi from "../api/listings";
+import routes from "../navigation/routes";
+import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import useApi from "../hooks/useApi";
-import routes from "../navigation/routes";
 
 function ListingsScreen({ navigation }) {
   const getListingsApi = useApi(listingsApi.getListings);

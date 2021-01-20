@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -12,10 +12,8 @@
 // TODO: Move to xplat codegen.
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const std::string &)name
                                                        instance:(id<RCTTurboModule>)instance
-                                                      jsInvoker:(std::shared_ptr<facebook::react::CallInvoker>)jsInvoker
-                                                  nativeInvoker:
-                                                      (std::shared_ptr<facebook::react::CallInvoker>)nativeInvoker
-                                                     perfLogger:(id<RCTTurboModulePerformanceLogger>)perfLogger;
+                                                      jsInvoker:
+                                                          (std::shared_ptr<facebook::react::JSCallInvoker>)jsInvoker;
 
 @optional
 
@@ -34,23 +32,16 @@
  */
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:(const std::string &)name
                                                       jsInvoker:
-                                                          (std::shared_ptr<facebook::react::CallInvoker>)jsInvoker;
+                                                          (std::shared_ptr<facebook::react::JSCallInvoker>)jsInvoker;
 
 @end
 
 @interface RCTTurboModuleManager : NSObject <RCTTurboModuleLookupDelegate>
 
-- (instancetype)initWithBridge:(RCTBridge *)bridge
-                      delegate:(id<RCTTurboModuleManagerDelegate>)delegate
-                     jsInvoker:(std::shared_ptr<facebook::react::CallInvoker>)jsInvoker;
-
-- (instancetype)initWithBridge:(RCTBridge *)bridge
-                      delegate:(id<RCTTurboModuleManagerDelegate>)delegate
-                     jsInvoker:(std::shared_ptr<facebook::react::CallInvoker>)jsInvoker
-             performanceLogger:(id<RCTTurboModulePerformanceLogger>)performanceLogger;
+- (instancetype)initWithBridge:(RCTBridge *)bridge delegate:(id<RCTTurboModuleManagerDelegate>)delegate;
 
 - (void)installJSBindingWithRuntime:(facebook::jsi::Runtime *)runtime;
 
-- (void)invalidate;
+- (std::shared_ptr<facebook::react::TurboModule>)getModule:(const std::string &)name;
 
 @end

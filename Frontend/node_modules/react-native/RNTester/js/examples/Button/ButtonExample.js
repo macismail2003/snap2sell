@@ -13,7 +13,6 @@
 const React = require('react');
 
 const {Alert, Button, View, StyleSheet} = require('react-native');
-import {RNTesterThemeContext} from '../../components/RNTesterTheme';
 
 function onButtonPress(buttonName) {
   Alert.alert(`${buttonName} has been pressed!`);
@@ -32,19 +31,12 @@ exports.examples = [
       'everyone.': string),
     render: function(): React.Node {
       return (
-        <RNTesterThemeContext.Consumer>
-          {theme => {
-            return (
-              <Button
-                onPress={() => onButtonPress('Simple')}
-                testID="simple_button"
-                color={theme.LinkColor}
-                title="Press Me"
-                accessibilityLabel="See an informative alert"
-              />
-            );
-          }}
-        </RNTesterThemeContext.Consumer>
+        <Button
+          onPress={() => onButtonPress('Simple')}
+          testID="simple_button"
+          title="Press Me"
+          accessibilityLabel="See an informative alert"
+        />
       );
     },
   },
@@ -55,19 +47,13 @@ exports.examples = [
       'Android, the color adjusts the background color of the button.': string),
     render: function(): React.Node {
       return (
-        <RNTesterThemeContext.Consumer>
-          {theme => {
-            return (
-              <Button
-                onPress={() => onButtonPress('Purple')}
-                testID="purple_button"
-                color={theme.SystemPurpleColor}
-                title="Press Purple"
-                accessibilityLabel="Learn more about purple"
-              />
-            );
-          }}
-        </RNTesterThemeContext.Consumer>
+        <Button
+          onPress={() => onButtonPress('Purple')}
+          testID="purple_button"
+          title="Press Purple"
+          color="#841584"
+          accessibilityLabel="Learn more about purple"
+        />
       );
     },
   },
@@ -77,28 +63,21 @@ exports.examples = [
       'the button': string),
     render: function(): React.Node {
       return (
-        <RNTesterThemeContext.Consumer>
-          {theme => {
-            return (
-              <View style={styles.container}>
-                <Button
-                  onPress={() => onButtonPress('Left')}
-                  testID="left_button"
-                  color={theme.LinkColor}
-                  title="This looks great!"
-                  accessibilityLabel="This sounds great!"
-                />
-                <Button
-                  onPress={() => onButtonPress('Right')}
-                  testID="right_button"
-                  color={theme.SystemPurpleColor}
-                  title="Ok!"
-                  accessibilityLabel="Ok, Great!"
-                />
-              </View>
-            );
-          }}
-        </RNTesterThemeContext.Consumer>
+        <View style={styles.container}>
+          <Button
+            onPress={() => onButtonPress('Left')}
+            testID="left_button"
+            title="This looks great!"
+            accessibilityLabel="This sounds great!"
+          />
+          <Button
+            onPress={() => onButtonPress('Right')}
+            testID="right_button"
+            title="Ok!"
+            color="#841584"
+            accessibilityLabel="Ok, Great!"
+          />
+        </View>
       );
     },
   },

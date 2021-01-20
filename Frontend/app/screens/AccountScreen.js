@@ -37,7 +37,7 @@ const menuItems = [
     title: "LogOut",
     backgroundColor: "orange",
     name: "logout",
-    // targetScreen: routes.AUTH,
+    targetScreen: routes.AUTH,
   },
 ];
 

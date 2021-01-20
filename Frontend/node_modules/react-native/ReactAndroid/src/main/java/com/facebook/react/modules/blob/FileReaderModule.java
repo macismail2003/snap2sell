@@ -1,21 +1,21 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * <p>This source code is licensed under the MIT license found in the LICENSE file in the root
+ * directory of this source tree.
  */
-
 package com.facebook.react.modules.blob;
 
 import android.util.Base64;
-import com.facebook.fbreact.specs.NativeFileReaderModuleSpec;
 import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.module.annotations.ReactModule;
 
 @ReactModule(name = FileReaderModule.NAME)
-public class FileReaderModule extends NativeFileReaderModuleSpec {
+public class FileReaderModule extends ReactContextBaseJavaModule {
 
   public static final String NAME = "FileReaderModule";
   private static final String ERROR_INVALID_BLOB = "ERROR_INVALID_BLOB";
@@ -29,28 +29,16 @@ public class FileReaderModule extends NativeFileReaderModuleSpec {
     return NAME;
   }
 
-  private BlobModule getBlobModule(String reason) {
-    ReactApplicationContext reactApplicationContext = getReactApplicationContextIfActiveOrWarn();
-
-    if (reactApplicationContext != null) {
-      return reactApplicationContext.getNativeModule(BlobModule.class);
-    }
-
-    return null;
+  private BlobModule getBlobModule() {
+    return getReactApplicationContext().getNativeModule(BlobModule.class);
   }
 
-  @Override
+  @ReactMethod
   public void readAsText(ReadableMap blob, String encoding, Promise promise) {
-    BlobModule blobModule = getBlobModule("readAsText");
-
-    if (blobModule == null) {
-      promise.reject(
-          new IllegalStateException("Could not get BlobModule from ReactApplicationContext"));
-      return;
-    }
 
     byte[] bytes =
-        blobModule.resolve(blob.getString("blobId"), blob.getInt("offset"), blob.getInt("size"));
+        getBlobModule()
+            .resolve(blob.getString("blobId"), blob.getInt("offset"), blob.getInt("size"));
 
     if (bytes == null) {
       promise.reject(ERROR_INVALID_BLOB, "The specified blob is invalid");
@@ -64,18 +52,11 @@ public class FileReaderModule extends NativeFileReaderModuleSpec {
     }
   }
 
-  @Override
+  @ReactMethod
   public void readAsDataURL(ReadableMap blob, Promise promise) {
-    BlobModule blobModule = getBlobModule("readAsDataURL");
-
-    if (blobModule == null) {
-      promise.reject(
-          new IllegalStateException("Could not get BlobModule from ReactApplicationContext"));
-      return;
-    }
-
     byte[] bytes =
-        blobModule.resolve(blob.getString("blobId"), blob.getInt("offset"), blob.getInt("size"));
+        getBlobModule()
+            .resolve(blob.getString("blobId"), blob.getInt("offset"), blob.getInt("size"));
 
     if (bytes == null) {
       promise.reject(ERROR_INVALID_BLOB, "The specified blob is invalid");

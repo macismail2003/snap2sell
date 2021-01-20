@@ -1,12 +1,12 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * <p>This source code is licensed under the MIT license found in the LICENSE file in the root
+ * directory of this source tree.
  */
-
 package com.facebook.react;
 
+import static com.facebook.react.bridge.ReactMarkerConstants.*;
 import static com.facebook.react.bridge.ReactMarkerConstants.CREATE_UI_MANAGER_MODULE_END;
 import static com.facebook.react.bridge.ReactMarkerConstants.CREATE_UI_MANAGER_MODULE_START;
 import static com.facebook.react.bridge.ReactMarkerConstants.PROCESS_CORE_REACT_PACKAGE_END;
@@ -16,7 +16,6 @@ import androidx.annotation.Nullable;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMarker;
-import com.facebook.react.devsupport.LogBoxModule;
 import com.facebook.react.module.annotations.ReactModule;
 import com.facebook.react.module.annotations.ReactModuleList;
 import com.facebook.react.module.model.ReactModuleInfo;
@@ -25,12 +24,11 @@ import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.modules.core.ExceptionsManagerModule;
 import com.facebook.react.modules.core.HeadlessJsTaskSupportModule;
-import com.facebook.react.modules.core.TimingModule;
+import com.facebook.react.modules.core.Timing;
 import com.facebook.react.modules.debug.DevSettingsModule;
 import com.facebook.react.modules.debug.SourceCodeModule;
 import com.facebook.react.modules.deviceinfo.DeviceInfoModule;
 import com.facebook.react.modules.systeminfo.AndroidInfoModule;
-import com.facebook.react.turbomodule.core.interfaces.TurboModule;
 import com.facebook.react.uimanager.UIImplementationProvider;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.facebook.react.uimanager.ViewManager;
@@ -51,20 +49,19 @@ import java.util.Map;
       DeviceInfoModule.class,
       DevSettingsModule.class,
       ExceptionsManagerModule.class,
-      LogBoxModule.class,
       HeadlessJsTaskSupportModule.class,
       SourceCodeModule.class,
-      TimingModule.class,
+      Timing.class,
       UIManagerModule.class,
     })
-public class CoreModulesPackage extends TurboReactPackage implements ReactPackageLogger {
+/* package */ class CoreModulesPackage extends TurboReactPackage implements ReactPackageLogger {
 
   private final ReactInstanceManager mReactInstanceManager;
   private final DefaultHardwareBackBtnHandler mHardwareBackBtnHandler;
   private final boolean mLazyViewManagersEnabled;
   private final int mMinTimeLeftInFrameForNonBatchedOperationMs;
 
-  public CoreModulesPackage(
+  CoreModulesPackage(
       ReactInstanceManager reactInstanceManager,
       DefaultHardwareBackBtnHandler hardwareBackBtnHandler,
       @Nullable UIImplementationProvider uiImplementationProvider,
@@ -97,10 +94,9 @@ public class CoreModulesPackage extends TurboReactPackage implements ReactPackag
             DeviceInfoModule.class,
             DevSettingsModule.class,
             ExceptionsManagerModule.class,
-            LogBoxModule.class,
             HeadlessJsTaskSupportModule.class,
             SourceCodeModule.class,
-            TimingModule.class,
+            Timing.class,
             UIManagerModule.class
           };
 
@@ -117,7 +113,7 @@ public class CoreModulesPackage extends TurboReactPackage implements ReactPackag
                 reactModule.needsEagerInit(),
                 reactModule.hasConstants(),
                 reactModule.isCxxModule(),
-                TurboModule.class.isAssignableFrom(moduleClass)));
+                false));
       }
 
       return new ReactModuleInfoProvider() {
@@ -143,17 +139,15 @@ public class CoreModulesPackage extends TurboReactPackage implements ReactPackag
       case DeviceEventManagerModule.NAME:
         return new DeviceEventManagerModule(reactContext, mHardwareBackBtnHandler);
       case DevSettingsModule.NAME:
-        return new DevSettingsModule(reactContext, mReactInstanceManager.getDevSupportManager());
+        return new DevSettingsModule(mReactInstanceManager.getDevSupportManager());
       case ExceptionsManagerModule.NAME:
         return new ExceptionsManagerModule(mReactInstanceManager.getDevSupportManager());
-      case LogBoxModule.NAME:
-        return new LogBoxModule(reactContext, mReactInstanceManager.getDevSupportManager());
       case HeadlessJsTaskSupportModule.NAME:
         return new HeadlessJsTaskSupportModule(reactContext);
       case SourceCodeModule.NAME:
         return new SourceCodeModule(reactContext);
-      case TimingModule.NAME:
-        return new TimingModule(reactContext, mReactInstanceManager.getDevSupportManager());
+      case Timing.NAME:
+        return new Timing(reactContext, mReactInstanceManager.getDevSupportManager());
       case UIManagerModule.NAME:
         return createUIManager(reactContext);
       case DeviceInfoModule.NAME:

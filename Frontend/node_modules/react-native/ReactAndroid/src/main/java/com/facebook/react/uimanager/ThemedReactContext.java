@@ -1,17 +1,14 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * <p>This source code is licensed under the MIT license found in the LICENSE file in the root
+ * directory of this source tree.
  */
-
 package com.facebook.react.uimanager;
 
 import android.app.Activity;
 import android.content.Context;
 import androidx.annotation.Nullable;
-import com.facebook.react.bridge.JSIModule;
-import com.facebook.react.bridge.JSIModuleType;
 import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
@@ -27,20 +24,13 @@ import com.facebook.react.bridge.ReactContext;
 public class ThemedReactContext extends ReactContext {
 
   private final ReactApplicationContext mReactApplicationContext;
-  @Nullable private final String mSurfaceID;
 
   public ThemedReactContext(ReactApplicationContext reactApplicationContext, Context base) {
-    this(reactApplicationContext, base, null);
-  }
-
-  public ThemedReactContext(
-      ReactApplicationContext reactApplicationContext, Context base, @Nullable String surfaceID) {
     super(base);
     if (reactApplicationContext.hasCatalystInstance()) {
       initializeWithInstance(reactApplicationContext.getCatalystInstance());
     }
     mReactApplicationContext = reactApplicationContext;
-    mSurfaceID = surfaceID;
   }
 
   @Override
@@ -61,26 +51,5 @@ public class ThemedReactContext extends ReactContext {
   @Override
   public @Nullable Activity getCurrentActivity() {
     return mReactApplicationContext.getCurrentActivity();
-  }
-
-  /**
-   * @return a {@link String} that represents the ID of the js application that is being rendered
-   *     with this {@link ThemedReactContext}
-   */
-  public @Nullable String getSurfaceID() {
-    return mSurfaceID;
-  }
-
-  @Override
-  public boolean isBridgeless() {
-    return mReactApplicationContext.isBridgeless();
-  }
-
-  @Override
-  public JSIModule getJSIModule(JSIModuleType moduleType) {
-    if (isBridgeless()) {
-      return mReactApplicationContext.getJSIModule(moduleType);
-    }
-    return super.getJSIModule(moduleType);
   }
 }

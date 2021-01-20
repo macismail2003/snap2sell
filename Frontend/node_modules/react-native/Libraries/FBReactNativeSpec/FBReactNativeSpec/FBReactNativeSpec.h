@@ -42,7 +42,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeAccessibilityInfoSpecJSI : public ObjCTurboModule {
     public:
-      NativeAccessibilityInfoSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeAccessibilityInfoSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -50,7 +50,7 @@ namespace facebook {
 
 namespace JS {
   namespace NativeAccessibilityManager {
-    struct SpecSetAccessibilityContentSizeMultipliersJSMultipliers {
+    struct SpecSetAccessibilityContentSizeMultipliersJSMultiipliers {
       folly::Optional<double> extraSmall() const;
       folly::Optional<double> small() const;
       folly::Optional<double> medium() const;
@@ -64,15 +64,15 @@ namespace JS {
       folly::Optional<double> accessibilityExtraExtraLarge() const;
       folly::Optional<double> accessibilityExtraExtraExtraLarge() const;
 
-      SpecSetAccessibilityContentSizeMultipliersJSMultipliers(NSDictionary *const v) : _v(v) {}
+      SpecSetAccessibilityContentSizeMultipliersJSMultiipliers(NSDictionary *const v) : _v(v) {}
     private:
       NSDictionary *_v;
     };
   }
 }
 
-@interface RCTCxxConvert (NativeAccessibilityManager_SpecSetAccessibilityContentSizeMultipliersJSMultipliers)
-+ (RCTManagedPointer *)JS_NativeAccessibilityManager_SpecSetAccessibilityContentSizeMultipliersJSMultipliers:(id)json;
+@interface RCTCxxConvert (NativeAccessibilityManager_SpecSetAccessibilityContentSizeMultipliersJSMultiipliers)
++ (RCTManagedPointer *)JS_NativeAccessibilityManager_SpecSetAccessibilityContentSizeMultipliersJSMultiipliers:(id)json;
 @end
 @protocol NativeAccessibilityManagerSpec <RCTBridgeModule, RCTTurboModule>
 
@@ -88,7 +88,7 @@ namespace JS {
                                   onError:(RCTResponseSenderBlock)onError;
 - (void)getCurrentVoiceOverState:(RCTResponseSenderBlock)onSuccess
                          onError:(RCTResponseSenderBlock)onError;
-- (void)setAccessibilityContentSizeMultipliers:(JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultipliers &)JSMultipliers;
+- (void)setAccessibilityContentSizeMultipliers:(JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultiipliers &)JSMultiipliers;
 - (void)setAccessibilityFocus:(double)reactTag;
 - (void)announceForAccessibility:(NSString *)announcement;
 
@@ -101,7 +101,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeAccessibilityManagerSpecJSI : public ObjCTurboModule {
     public:
-      NativeAccessibilityManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeAccessibilityManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -113,11 +113,10 @@ namespace JS {
       NSString *title() const;
       NSString *message() const;
       folly::Optional<facebook::react::LazyVector<NSString *>> options() const;
-      folly::Optional<facebook::react::LazyVector<double>> destructiveButtonIndices() const;
+      folly::Optional<double> destructiveButtonIndex() const;
       folly::Optional<double> cancelButtonIndex() const;
       folly::Optional<double> anchor() const;
       folly::Optional<double> tintColor() const;
-      NSString *userInterfaceStyle() const;
 
       SpecShowActionSheetWithOptionsOptions(NSDictionary *const v) : _v(v) {}
     private:
@@ -139,7 +138,6 @@ namespace JS {
       folly::Optional<double> anchor() const;
       folly::Optional<double> tintColor() const;
       folly::Optional<facebook::react::LazyVector<NSString *>> excludedActivityTypes() const;
-      NSString *userInterfaceStyle() const;
 
       SpecShowShareActionSheetWithOptionsOptions(NSDictionary *const v) : _v(v) {}
     private:
@@ -187,7 +185,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeActionSheetManagerSpecJSI : public ObjCTurboModule {
     public:
-      NativeActionSheetManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeActionSheetManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -198,7 +196,7 @@ namespace JS {
     struct Args {
       NSString *title() const;
       NSString *message() const;
-      folly::Optional<facebook::react::LazyVector<id<NSObject>>> buttons() const;
+      id<NSObject> _Nullable buttons() const;
       NSString *type() const;
       NSString *defaultValue() const;
       NSString *cancelButtonKey() const;
@@ -229,11 +227,43 @@ namespace facebook {
 
     class JSI_EXPORT NativeAlertManagerSpecJSI : public ObjCTurboModule {
     public:
-      NativeAlertManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeAlertManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
 } // namespace facebook
+
+namespace JS {
+  namespace NativeAnimatedModule {
+    struct AnimatedNodeConfig {
+      NSString *type() const;
+
+      AnimatedNodeConfig(NSDictionary *const v) : _v(v) {}
+    private:
+      NSDictionary *_v;
+    };
+  }
+}
+
+@interface RCTCxxConvert (NativeAnimatedModule_AnimatedNodeConfig)
++ (RCTManagedPointer *)JS_NativeAnimatedModule_AnimatedNodeConfig:(id)json;
+@end
+
+namespace JS {
+  namespace NativeAnimatedModule {
+    struct AnimatingNodeConfig {
+      NSString *type() const;
+
+      AnimatingNodeConfig(NSDictionary *const v) : _v(v) {}
+    private:
+      NSDictionary *_v;
+    };
+  }
+}
+
+@interface RCTCxxConvert (NativeAnimatedModule_AnimatingNodeConfig)
++ (RCTManagedPointer *)JS_NativeAnimatedModule_AnimatingNodeConfig:(id)json;
+@end
 
 namespace JS {
   namespace NativeAnimatedModule {
@@ -269,37 +299,36 @@ namespace JS {
 @end
 @protocol NativeAnimatedModuleSpec <RCTBridgeModule, RCTTurboModule>
 
-- (void)createAnimatedNode:(double)tag
-                    config:(NSDictionary *)config;
-- (void)startListeningToAnimatedNodeValue:(double)tag;
-- (void)stopListeningToAnimatedNodeValue:(double)tag;
-- (void)connectAnimatedNodes:(double)parentTag
-                    childTag:(double)childTag;
-- (void)disconnectAnimatedNodes:(double)parentTag
-                       childTag:(double)childTag;
-- (void)startAnimatingNode:(double)animationId
-                   nodeTag:(double)nodeTag
-                    config:(NSDictionary *)config
+- (void)createAnimatedNode:(NSNumber *)tag
+                    config:(JS::NativeAnimatedModule::AnimatedNodeConfig &)config;
+- (void)startListeningToAnimatedNodeValue:(NSNumber *)tag;
+- (void)stopListeningToAnimatedNodeValue:(NSNumber *)tag;
+- (void)connectAnimatedNodes:(NSNumber *)parentTag
+                    childTag:(NSNumber *)childTag;
+- (void)disconnectAnimatedNodes:(NSNumber *)parentTag
+                       childTag:(NSNumber *)childTag;
+- (void)startAnimatingNode:(NSNumber *)animationId
+                   nodeTag:(NSNumber *)nodeTag
+                    config:(JS::NativeAnimatedModule::AnimatingNodeConfig &)config
                endCallback:(RCTResponseSenderBlock)endCallback;
-- (void)stopAnimation:(double)animationId;
-- (void)setAnimatedNodeValue:(double)nodeTag
-                       value:(double)value;
-- (void)setAnimatedNodeOffset:(double)nodeTag
-                       offset:(double)offset;
-- (void)flattenAnimatedNodeOffset:(double)nodeTag;
-- (void)extractAnimatedNodeOffset:(double)nodeTag;
-- (void)connectAnimatedNodeToView:(double)nodeTag
-                          viewTag:(double)viewTag;
-- (void)disconnectAnimatedNodeFromView:(double)nodeTag
-                               viewTag:(double)viewTag;
-- (void)restoreDefaultValues:(double)nodeTag;
-- (void)dropAnimatedNode:(double)tag;
-- (void)addAnimatedEventToView:(double)viewTag
+- (void)stopAnimation:(NSNumber *)animationId;
+- (void)setAnimatedNodeValue:(NSNumber *)nodeTag
+                       value:(NSNumber *)value;
+- (void)setAnimatedNodeOffset:(NSNumber *)nodeTag
+                       offset:(NSNumber *)offset;
+- (void)flattenAnimatedNodeOffset:(NSNumber *)nodeTag;
+- (void)extractAnimatedNodeOffset:(NSNumber *)nodeTag;
+- (void)connectAnimatedNodeToView:(NSNumber *)nodeTag
+                          viewTag:(NSNumber *)viewTag;
+- (void)disconnectAnimatedNodeFromView:(NSNumber *)nodeTag
+                               viewTag:(NSNumber *)viewTag;
+- (void)dropAnimatedNode:(NSNumber *)tag;
+- (void)addAnimatedEventToView:(NSNumber *)viewTag
                      eventName:(NSString *)eventName
                   eventMapping:(JS::NativeAnimatedModule::EventMapping &)eventMapping;
-- (void)removeAnimatedEventFromView:(double)viewTag
+- (void)removeAnimatedEventFromView:(NSNumber *)viewTag
                           eventName:(NSString *)eventName
-                    animatedNodeTag:(double)animatedNodeTag;
+                    animatedNodeTag:(NSNumber *)animatedNodeTag;
 - (void)addListener:(NSString *)eventName;
 - (void)removeListeners:(double)count;
 
@@ -312,7 +341,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeAnimatedModuleSpecJSI : public ObjCTurboModule {
     public:
-      NativeAnimatedModuleSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeAnimatedModuleSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -331,7 +360,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeAnimationsDebugModuleSpecJSI : public ObjCTurboModule {
     public:
-      NativeAnimationsDebugModuleSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeAnimationsDebugModuleSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -383,7 +412,7 @@ namespace JS {
 @protocol NativeAppStateSpec <RCTBridgeModule, RCTTurboModule>
 
 - (void)getCurrentAppState:(RCTResponseSenderBlock)success
-                     error:(RCTResponseSenderBlock)error;
+                   failure:(RCTResponseSenderBlock)failure;
 - (void)addListener:(NSString *)eventName;
 - (void)removeListeners:(double)count;
 - (facebook::react::ModuleConstants<JS::NativeAppState::Constants::Builder>)constantsToExport;
@@ -398,54 +427,11 @@ namespace facebook {
 
     class JSI_EXPORT NativeAppStateSpecJSI : public ObjCTurboModule {
     public:
-      NativeAppStateSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeAppStateSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
 } // namespace facebook
-@protocol NativeAppearanceSpec <RCTBridgeModule, RCTTurboModule>
-
-- (NSString *)getColorScheme;
-- (void)addListener:(NSString *)eventName;
-- (void)removeListeners:(double)count;
-
-@end
-namespace facebook {
-  namespace react {
-    /**
-     * ObjC++ class for module 'Appearance'
-     */
-
-    class JSI_EXPORT NativeAppearanceSpecJSI : public ObjCTurboModule {
-    public:
-      NativeAppearanceSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
-
-    };
-  } // namespace react
-} // namespace facebook
-
-namespace JS {
-  namespace NativeAppearance {
-    struct AppearancePreferences {
-      NSString *colorScheme() const;
-
-      AppearancePreferences(NSDictionary *const v) : _v(v) {}
-    private:
-      NSDictionary *_v;
-    };
-  }
-}
-
-@interface RCTCxxConvert (NativeAppearance_AppearancePreferences)
-+ (RCTManagedPointer *)JS_NativeAppearance_AppearancePreferences:(id)json;
-@end
-typedef NS_ENUM(NSInteger, NativeAppearanceColorSchemeName) {
-  NativeAppearanceColorSchemeNameLight = 0,
-  NativeAppearanceColorSchemeNameDark,
-};
-
-folly::Optional<NativeAppearanceColorSchemeName> NSStringToNativeAppearanceColorSchemeName(NSString *value);
-NSString *NativeAppearanceColorSchemeNameToNSString(folly::Optional<NativeAppearanceColorSchemeName> value);
 
 namespace JS {
   namespace NativeAsyncStorage {
@@ -564,7 +550,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeAsyncStorageSpecJSI : public ObjCTurboModule {
     public:
-      NativeAsyncStorageSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeAsyncStorageSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -604,9 +590,9 @@ namespace JS {
 - (void)addWebSocketHandler:(double)id;
 - (void)removeWebSocketHandler:(double)id;
 - (void)sendOverSocket:(NSDictionary *)blob
-              socketID:(double)socketID;
+                    id:(double)id;
 - (void)createFromParts:(NSArray *)parts
-                 withId:(NSString *)withId;
+                 blobId:(NSString *)blobId;
 - (void)release:(NSString *)blobId;
 - (facebook::react::ModuleConstants<JS::NativeBlobModule::Constants::Builder>)constantsToExport;
 - (facebook::react::ModuleConstants<JS::NativeBlobModule::Constants::Builder>)getConstants;
@@ -620,7 +606,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeBlobModuleSpecJSI : public ObjCTurboModule {
     public:
-      NativeBlobModuleSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeBlobModuleSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -641,172 +627,11 @@ namespace facebook {
 
     class JSI_EXPORT NativeBugReportingSpecJSI : public ObjCTurboModule {
     public:
-      NativeBugReportingSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeBugReportingSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
 } // namespace facebook
-
-namespace JS {
-  namespace NativeCameraRollManager {
-    struct GetPhotosParams {
-      double first() const;
-      NSString *after() const;
-      NSString *groupName() const;
-      NSString *groupTypes() const;
-      NSString *assetType() const;
-      folly::Optional<double> maxSize() const;
-      folly::Optional<facebook::react::LazyVector<NSString *>> mimeTypes() const;
-
-      GetPhotosParams(NSDictionary *const v) : _v(v) {}
-    private:
-      NSDictionary *_v;
-    };
-  }
-}
-
-@interface RCTCxxConvert (NativeCameraRollManager_GetPhotosParams)
-+ (RCTManagedPointer *)JS_NativeCameraRollManager_GetPhotosParams:(id)json;
-@end
-@protocol NativeCameraRollManagerSpec <RCTBridgeModule, RCTTurboModule>
-
-- (void)getPhotos:(JS::NativeCameraRollManager::GetPhotosParams &)params
-          resolve:(RCTPromiseResolveBlock)resolve
-           reject:(RCTPromiseRejectBlock)reject;
-- (void)saveToCameraRoll:(NSString *)uri
-                    type:(NSString *)type
-                 resolve:(RCTPromiseResolveBlock)resolve
-                  reject:(RCTPromiseRejectBlock)reject;
-- (void)deletePhotos:(NSArray *)assets
-             resolve:(RCTPromiseResolveBlock)resolve
-              reject:(RCTPromiseRejectBlock)reject;
-
-@end
-namespace facebook {
-  namespace react {
-    /**
-     * ObjC++ class for module 'CameraRollManager'
-     */
-
-    class JSI_EXPORT NativeCameraRollManagerSpecJSI : public ObjCTurboModule {
-    public:
-      NativeCameraRollManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
-
-    };
-  } // namespace react
-} // namespace facebook
-
-namespace JS {
-  namespace NativeCameraRollManager {
-    struct PhotoIdentifierNodeImage {
-      NSString *uri() const;
-      double playableDuration() const;
-      double width() const;
-      double height() const;
-      folly::Optional<bool> isStored() const;
-      NSString *filename() const;
-
-      PhotoIdentifierNodeImage(NSDictionary *const v) : _v(v) {}
-    private:
-      NSDictionary *_v;
-    };
-  }
-}
-
-@interface RCTCxxConvert (NativeCameraRollManager_PhotoIdentifierNodeImage)
-+ (RCTManagedPointer *)JS_NativeCameraRollManager_PhotoIdentifierNodeImage:(id)json;
-@end
-
-namespace JS {
-  namespace NativeCameraRollManager {
-    struct PhotoIdentifierNodeLocation {
-      double longitude() const;
-      double latitude() const;
-      folly::Optional<double> altitude() const;
-      folly::Optional<double> heading() const;
-      folly::Optional<double> speed() const;
-
-      PhotoIdentifierNodeLocation(NSDictionary *const v) : _v(v) {}
-    private:
-      NSDictionary *_v;
-    };
-  }
-}
-
-@interface RCTCxxConvert (NativeCameraRollManager_PhotoIdentifierNodeLocation)
-+ (RCTManagedPointer *)JS_NativeCameraRollManager_PhotoIdentifierNodeLocation:(id)json;
-@end
-
-namespace JS {
-  namespace NativeCameraRollManager {
-    struct PhotoIdentifierNode {
-      JS::NativeCameraRollManager::PhotoIdentifierNodeImage image() const;
-      NSString *type() const;
-      NSString *group_name() const;
-      double timestamp() const;
-      JS::NativeCameraRollManager::PhotoIdentifierNodeLocation location() const;
-
-      PhotoIdentifierNode(NSDictionary *const v) : _v(v) {}
-    private:
-      NSDictionary *_v;
-    };
-  }
-}
-
-@interface RCTCxxConvert (NativeCameraRollManager_PhotoIdentifierNode)
-+ (RCTManagedPointer *)JS_NativeCameraRollManager_PhotoIdentifierNode:(id)json;
-@end
-
-namespace JS {
-  namespace NativeCameraRollManager {
-    struct PhotoIdentifier {
-      JS::NativeCameraRollManager::PhotoIdentifierNode node() const;
-
-      PhotoIdentifier(NSDictionary *const v) : _v(v) {}
-    private:
-      NSDictionary *_v;
-    };
-  }
-}
-
-@interface RCTCxxConvert (NativeCameraRollManager_PhotoIdentifier)
-+ (RCTManagedPointer *)JS_NativeCameraRollManager_PhotoIdentifier:(id)json;
-@end
-
-namespace JS {
-  namespace NativeCameraRollManager {
-    struct PhotoIdentifiersPagePage_info {
-      bool has_next_page() const;
-      NSString *start_cursor() const;
-      NSString *end_cursor() const;
-
-      PhotoIdentifiersPagePage_info(NSDictionary *const v) : _v(v) {}
-    private:
-      NSDictionary *_v;
-    };
-  }
-}
-
-@interface RCTCxxConvert (NativeCameraRollManager_PhotoIdentifiersPagePage_info)
-+ (RCTManagedPointer *)JS_NativeCameraRollManager_PhotoIdentifiersPagePage_info:(id)json;
-@end
-
-namespace JS {
-  namespace NativeCameraRollManager {
-    struct PhotoIdentifiersPage {
-      facebook::react::LazyVector<JS::NativeCameraRollManager::PhotoIdentifier> edges() const;
-      JS::NativeCameraRollManager::PhotoIdentifiersPagePage_info page_info() const;
-
-      PhotoIdentifiersPage(NSDictionary *const v) : _v(v) {}
-    private:
-      NSDictionary *_v;
-    };
-  }
-}
-
-@interface RCTCxxConvert (NativeCameraRollManager_PhotoIdentifiersPage)
-+ (RCTManagedPointer *)JS_NativeCameraRollManager_PhotoIdentifiersPage:(id)json;
-@end
 @protocol NativeClipboardSpec <RCTBridgeModule, RCTTurboModule>
 
 - (void)getString:(RCTPromiseResolveBlock)resolve
@@ -822,7 +647,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeClipboardSpecJSI : public ObjCTurboModule {
     public:
-      NativeClipboardSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeClipboardSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -842,7 +667,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeDatePickerAndroidSpecJSI : public ObjCTurboModule {
     public:
-      NativeDatePickerAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeDatePickerAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -850,8 +675,8 @@ namespace facebook {
 @protocol NativeDevLoadingViewSpec <RCTBridgeModule, RCTTurboModule>
 
 - (void)showMessage:(NSString *)message
-          withColor:(NSNumber *)withColor
-withBackgroundColor:(NSNumber *)withBackgroundColor;
+              color:(NSDictionary *)color
+    backgroundColor:(NSDictionary *)backgroundColor;
 - (void)hide;
 
 @end
@@ -863,29 +688,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeDevLoadingViewSpecJSI : public ObjCTurboModule {
     public:
-      NativeDevLoadingViewSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
-
-    };
-  } // namespace react
-} // namespace facebook
-@protocol NativeDevMenuSpec <RCTBridgeModule, RCTTurboModule>
-
-- (void)show;
-- (void)reload;
-- (void)debugRemotely:(BOOL)enableDebug;
-- (void)setProfilingEnabled:(BOOL)enabled;
-- (void)setHotLoadingEnabled:(BOOL)enabled;
-
-@end
-namespace facebook {
-  namespace react {
-    /**
-     * ObjC++ class for module 'DevMenu'
-     */
-
-    class JSI_EXPORT NativeDevMenuSpecJSI : public ObjCTurboModule {
-    public:
-      NativeDevMenuSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeDevLoadingViewSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -893,15 +696,11 @@ namespace facebook {
 @protocol NativeDevSettingsSpec <RCTBridgeModule, RCTTurboModule>
 
 - (void)reload;
-- (void)reloadWithReason:(NSString *)reason;
-- (void)onFastRefresh;
 - (void)setHotLoadingEnabled:(BOOL)isHotLoadingEnabled;
 - (void)setIsDebuggingRemotely:(BOOL)isDebuggingRemotelyEnabled;
+- (void)setLiveReloadEnabled:(BOOL)isLiveReloadEnabled;
 - (void)setProfilingEnabled:(BOOL)isProfilingEnabled;
 - (void)toggleElementInspector;
-- (void)addMenuItem:(NSString *)title;
-- (void)addListener:(NSString *)eventName;
-- (void)removeListeners:(double)count;
 - (void)setIsShakeToShowDevMenuEnabled:(BOOL)enabled;
 
 @end
@@ -913,7 +712,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeDevSettingsSpecJSI : public ObjCTurboModule {
     public:
-      NativeDevSettingsSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeDevSettingsSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -931,7 +730,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeDeviceEventManagerSpecJSI : public ObjCTurboModule {
     public:
-      NativeDeviceEventManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeDeviceEventManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -939,105 +738,11 @@ namespace facebook {
 
 namespace JS {
   namespace NativeDeviceInfo {
-    struct DisplayMetrics {
-
-      struct Builder {
-        struct Input {
-          RCTRequired<double> width;
-          RCTRequired<double> height;
-          RCTRequired<double> scale;
-          RCTRequired<double> fontScale;
-        };
-
-        /** Initialize with a set of values */
-        Builder(const Input i);
-        /** Initialize with an existing DisplayMetrics */
-        Builder(DisplayMetrics i);
-        /** Builds the object. Generally used only by the infrastructure. */
-        NSDictionary *buildUnsafeRawValue() const { return _factory(); };
-      private:
-        NSDictionary *(^_factory)(void);
-      };
-
-      static DisplayMetrics fromUnsafeRawValue(NSDictionary *const v) { return {v}; }
-      NSDictionary *unsafeRawValue() const { return _v; }
-    private:
-      DisplayMetrics(NSDictionary *const v) : _v(v) {}
-      NSDictionary *_v;
-    };
-  }
-}
-
-namespace JS {
-  namespace NativeDeviceInfo {
-    struct DisplayMetricsAndroid {
-
-      struct Builder {
-        struct Input {
-          RCTRequired<double> width;
-          RCTRequired<double> height;
-          RCTRequired<double> scale;
-          RCTRequired<double> fontScale;
-          RCTRequired<double> densityDpi;
-        };
-
-        /** Initialize with a set of values */
-        Builder(const Input i);
-        /** Initialize with an existing DisplayMetricsAndroid */
-        Builder(DisplayMetricsAndroid i);
-        /** Builds the object. Generally used only by the infrastructure. */
-        NSDictionary *buildUnsafeRawValue() const { return _factory(); };
-      private:
-        NSDictionary *(^_factory)(void);
-      };
-
-      static DisplayMetricsAndroid fromUnsafeRawValue(NSDictionary *const v) { return {v}; }
-      NSDictionary *unsafeRawValue() const { return _v; }
-    private:
-      DisplayMetricsAndroid(NSDictionary *const v) : _v(v) {}
-      NSDictionary *_v;
-    };
-  }
-}
-
-namespace JS {
-  namespace NativeDeviceInfo {
-    struct DimensionsPayload {
-
-      struct Builder {
-        struct Input {
-          folly::Optional<JS::NativeDeviceInfo::DisplayMetrics::Builder> window;
-          folly::Optional<JS::NativeDeviceInfo::DisplayMetrics::Builder> screen;
-          folly::Optional<JS::NativeDeviceInfo::DisplayMetricsAndroid::Builder> windowPhysicalPixels;
-          folly::Optional<JS::NativeDeviceInfo::DisplayMetricsAndroid::Builder> screenPhysicalPixels;
-        };
-
-        /** Initialize with a set of values */
-        Builder(const Input i);
-        /** Initialize with an existing DimensionsPayload */
-        Builder(DimensionsPayload i);
-        /** Builds the object. Generally used only by the infrastructure. */
-        NSDictionary *buildUnsafeRawValue() const { return _factory(); };
-      private:
-        NSDictionary *(^_factory)(void);
-      };
-
-      static DimensionsPayload fromUnsafeRawValue(NSDictionary *const v) { return {v}; }
-      NSDictionary *unsafeRawValue() const { return _v; }
-    private:
-      DimensionsPayload(NSDictionary *const v) : _v(v) {}
-      NSDictionary *_v;
-    };
-  }
-}
-
-namespace JS {
-  namespace NativeDeviceInfo {
     struct Constants {
 
       struct Builder {
         struct Input {
-          RCTRequired<JS::NativeDeviceInfo::DimensionsPayload::Builder> Dimensions;
+          RCTRequired<id<NSObject>> Dimensions;
           folly::Optional<bool> isIPhoneX_deprecated;
         };
 
@@ -1073,7 +778,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeDeviceInfoSpecJSI : public ObjCTurboModule {
     public:
-      NativeDeviceInfoSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeDeviceInfoSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -1149,7 +854,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeDialogManagerAndroidSpecJSI : public ObjCTurboModule {
     public:
-      NativeDialogManagerAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeDialogManagerAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -1220,7 +925,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeExceptionsManagerSpecJSI : public ObjCTurboModule {
     public:
-      NativeExceptionsManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeExceptionsManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -1244,7 +949,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeFileReaderModuleSpecJSI : public ObjCTurboModule {
     public:
-      NativeFileReaderModuleSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeFileReaderModuleSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -1282,7 +987,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeFrameRateLoggerSpecJSI : public ObjCTurboModule {
     public:
-      NativeFrameRateLoggerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeFrameRateLoggerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -1303,7 +1008,27 @@ namespace facebook {
 
     class JSI_EXPORT NativeHeadlessJsTaskSupportSpecJSI : public ObjCTurboModule {
     public:
-      NativeHeadlessJsTaskSupportSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeHeadlessJsTaskSupportSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
+
+    };
+  } // namespace react
+} // namespace facebook
+@protocol NativeHeapCaptureSpec <RCTBridgeModule, RCTTurboModule>
+
+- (void)captureHeap:(NSString *)path;
+- (void)captureComplete:(NSString *)path
+                  error:(NSString * _Nullable)error;
+
+@end
+namespace facebook {
+  namespace react {
+    /**
+     * ObjC++ class for module 'HeapCapture'
+     */
+
+    class JSI_EXPORT NativeHeapCaptureSpecJSI : public ObjCTurboModule {
+    public:
+      NativeHeapCaptureSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -1354,161 +1079,22 @@ namespace facebook {
 
     class JSI_EXPORT NativeI18nManagerSpecJSI : public ObjCTurboModule {
     public:
-      NativeI18nManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeI18nManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
 } // namespace facebook
-
-namespace JS {
-  namespace NativeImageEditor {
-    struct OptionsOffset {
-      double x() const;
-      double y() const;
-
-      OptionsOffset(NSDictionary *const v) : _v(v) {}
-    private:
-      NSDictionary *_v;
-    };
-  }
-}
-
-@interface RCTCxxConvert (NativeImageEditor_OptionsOffset)
-+ (RCTManagedPointer *)JS_NativeImageEditor_OptionsOffset:(id)json;
-@end
-
-namespace JS {
-  namespace NativeImageEditor {
-    struct OptionsSize {
-      double width() const;
-      double height() const;
-
-      OptionsSize(NSDictionary *const v) : _v(v) {}
-    private:
-      NSDictionary *_v;
-    };
-  }
-}
-
-@interface RCTCxxConvert (NativeImageEditor_OptionsSize)
-+ (RCTManagedPointer *)JS_NativeImageEditor_OptionsSize:(id)json;
-@end
-
-namespace JS {
-  namespace NativeImageEditor {
-    struct OptionsDisplaySize {
-      double width() const;
-      double height() const;
-
-      OptionsDisplaySize(NSDictionary *const v) : _v(v) {}
-    private:
-      NSDictionary *_v;
-    };
-  }
-}
-
-@interface RCTCxxConvert (NativeImageEditor_OptionsDisplaySize)
-+ (RCTManagedPointer *)JS_NativeImageEditor_OptionsDisplaySize:(id)json;
-@end
-
-namespace JS {
-  namespace NativeImageEditor {
-    struct Options {
-      JS::NativeImageEditor::OptionsOffset offset() const;
-      JS::NativeImageEditor::OptionsSize size() const;
-      folly::Optional<JS::NativeImageEditor::OptionsDisplaySize> displaySize() const;
-      NSString *resizeMode() const;
-      folly::Optional<bool> allowExternalStorage() const;
-
-      Options(NSDictionary *const v) : _v(v) {}
-    private:
-      NSDictionary *_v;
-    };
-  }
-}
-
-@interface RCTCxxConvert (NativeImageEditor_Options)
-+ (RCTManagedPointer *)JS_NativeImageEditor_Options:(id)json;
-@end
-@protocol NativeImageEditorSpec <RCTBridgeModule, RCTTurboModule>
-
-- (void)cropImage:(NSString *)uri
-         cropData:(JS::NativeImageEditor::Options &)cropData
-  successCallback:(RCTResponseSenderBlock)successCallback
-    errorCallback:(RCTResponseSenderBlock)errorCallback;
-
+@protocol NativeImageLoaderSpec <RCTBridgeModule, RCTTurboModule>
 @end
 namespace facebook {
   namespace react {
     /**
-     * ObjC++ class for module 'ImageEditor'
+     * ObjC++ class for module 'ImageLoader'
      */
 
-    class JSI_EXPORT NativeImageEditorSpecJSI : public ObjCTurboModule {
+    class JSI_EXPORT NativeImageLoaderSpecJSI : public ObjCTurboModule {
     public:
-      NativeImageEditorSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
-
-    };
-  } // namespace react
-} // namespace facebook
-@protocol NativeImageLoaderAndroidSpec <RCTBridgeModule, RCTTurboModule>
-
-- (void)abortRequest:(double)requestId;
-- (void)getSize:(NSString *)uri
-        resolve:(RCTPromiseResolveBlock)resolve
-         reject:(RCTPromiseRejectBlock)reject;
-- (void)getSizeWithHeaders:(NSString *)uri
-                   headers:(NSDictionary *)headers
-                   resolve:(RCTPromiseResolveBlock)resolve
-                    reject:(RCTPromiseRejectBlock)reject;
-- (void)prefetchImage:(NSString *)uri
-            requestId:(double)requestId
-              resolve:(RCTPromiseResolveBlock)resolve
-               reject:(RCTPromiseRejectBlock)reject;
-- (void)queryCache:(NSArray *)uris
-           resolve:(RCTPromiseResolveBlock)resolve
-            reject:(RCTPromiseRejectBlock)reject;
-
-@end
-namespace facebook {
-  namespace react {
-    /**
-     * ObjC++ class for module 'ImageLoaderAndroid'
-     */
-
-    class JSI_EXPORT NativeImageLoaderAndroidSpecJSI : public ObjCTurboModule {
-    public:
-      NativeImageLoaderAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
-
-    };
-  } // namespace react
-} // namespace facebook
-@protocol NativeImageLoaderIOSSpec <RCTBridgeModule, RCTTurboModule>
-
-- (void)getSize:(NSString *)uri
-        resolve:(RCTPromiseResolveBlock)resolve
-         reject:(RCTPromiseRejectBlock)reject;
-- (void)getSizeWithHeaders:(NSString *)uri
-                   headers:(NSDictionary *)headers
-                   resolve:(RCTPromiseResolveBlock)resolve
-                    reject:(RCTPromiseRejectBlock)reject;
-- (void)prefetchImage:(NSString *)uri
-              resolve:(RCTPromiseResolveBlock)resolve
-               reject:(RCTPromiseRejectBlock)reject;
-- (void)queryCache:(NSArray *)uris
-           resolve:(RCTPromiseResolveBlock)resolve
-            reject:(RCTPromiseRejectBlock)reject;
-
-@end
-namespace facebook {
-  namespace react {
-    /**
-     * ObjC++ class for module 'ImageLoaderIOS'
-     */
-
-    class JSI_EXPORT NativeImageLoaderIOSSpecJSI : public ObjCTurboModule {
-    public:
-      NativeImageLoaderIOSSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeImageLoaderSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -1569,68 +1155,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeImagePickerIOSSpecJSI : public ObjCTurboModule {
     public:
-      NativeImagePickerIOSSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
-
-    };
-  } // namespace react
-} // namespace facebook
-
-namespace JS {
-  namespace NativeImageStore {
-    struct SpecAddImageFromBase64ErrorCallbackError {
-      NSString *message() const;
-
-      SpecAddImageFromBase64ErrorCallbackError(NSDictionary *const v) : _v(v) {}
-    private:
-      NSDictionary *_v;
-    };
-  }
-}
-
-@interface RCTCxxConvert (NativeImageStore_SpecAddImageFromBase64ErrorCallbackError)
-+ (RCTManagedPointer *)JS_NativeImageStore_SpecAddImageFromBase64ErrorCallbackError:(id)json;
-@end
-@protocol NativeImageStoreSpec <RCTBridgeModule, RCTTurboModule>
-
-- (void)getBase64ForTag:(NSString *)uri
-        successCallback:(RCTResponseSenderBlock)successCallback
-          errorCallback:(RCTResponseSenderBlock)errorCallback;
-- (void)hasImageForTag:(NSString *)uri
-              callback:(RCTResponseSenderBlock)callback;
-- (void)removeImageForTag:(NSString *)uri;
-- (void)addImageFromBase64:(NSString *)base64ImageData
-           successCallback:(RCTResponseSenderBlock)successCallback
-             errorCallback:(RCTResponseSenderBlock)errorCallback;
-
-@end
-namespace facebook {
-  namespace react {
-    /**
-     * ObjC++ class for module 'ImageStore'
-     */
-
-    class JSI_EXPORT NativeImageStoreSpecJSI : public ObjCTurboModule {
-    public:
-      NativeImageStoreSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
-
-    };
-  } // namespace react
-} // namespace facebook
-@protocol NativeJSCHeapCaptureSpec <RCTBridgeModule, RCTTurboModule>
-
-- (void)captureComplete:(NSString *)path
-                  error:(NSString * _Nullable)error;
-
-@end
-namespace facebook {
-  namespace react {
-    /**
-     * ObjC++ class for module 'JSCHeapCapture'
-     */
-
-    class JSI_EXPORT NativeJSCHeapCaptureSpecJSI : public ObjCTurboModule {
-    public:
-      NativeJSCHeapCaptureSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeImagePickerIOSSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -1650,7 +1175,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeJSCSamplingProfilerSpecJSI : public ObjCTurboModule {
     public:
-      NativeJSCSamplingProfilerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeJSCSamplingProfilerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -1686,7 +1211,7 @@ namespace JS {
 }
 @protocol NativeJSDevSupportSpec <RCTBridgeModule, RCTTurboModule>
 
-- (void)onSuccess:(NSString *)data;
+- (void)onSuccess:(NSDictionary *)data;
 - (void)onFailure:(double)errorCode
             error:(NSString *)error;
 - (facebook::react::ModuleConstants<JS::NativeJSDevSupport::Constants::Builder>)constantsToExport;
@@ -1701,7 +1226,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeJSDevSupportSpecJSI : public ObjCTurboModule {
     public:
-      NativeJSDevSupportSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeJSDevSupportSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -1720,7 +1245,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeKeyboardObserverSpecJSI : public ObjCTurboModule {
     public:
-      NativeKeyboardObserverSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeKeyboardObserverSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -1770,26 +1295,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeLinkingSpecJSI : public ObjCTurboModule {
     public:
-      NativeLinkingSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
-
-    };
-  } // namespace react
-} // namespace facebook
-@protocol NativeLogBoxSpec <RCTBridgeModule, RCTTurboModule>
-
-- (void)show;
-- (void)hide;
-
-@end
-namespace facebook {
-  namespace react {
-    /**
-     * ObjC++ class for module 'LogBox'
-     */
-
-    class JSI_EXPORT NativeLogBoxSpecJSI : public ObjCTurboModule {
-    public:
-      NativeLogBoxSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeLinkingSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -1808,11 +1314,28 @@ namespace facebook {
 
     class JSI_EXPORT NativeModalManagerSpecJSI : public ObjCTurboModule {
     public:
-      NativeModalManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeModalManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
 } // namespace facebook
+
+namespace JS {
+  namespace NativeNetworkingAndroid {
+    struct Header {
+      NSString *first() const;
+      NSString *second() const;
+
+      Header(NSArray *const v) : _v(v) {}
+    private:
+      NSArray *_v;
+    };
+  }
+}
+
+@interface RCTCxxConvert (NativeNetworkingAndroid_Header)
++ (RCTManagedPointer *)JS_NativeNetworkingAndroid_Header:(id)json;
+@end
 @protocol NativeNetworkingAndroidSpec <RCTBridgeModule, RCTTurboModule>
 
 - (void)sendRequest:(NSString *)method
@@ -1820,7 +1343,7 @@ namespace facebook {
           requestId:(double)requestId
             headers:(NSArray *)headers
                data:(NSDictionary *)data
-       responseType:(NSString *)responseType
+       responseType:(NSDictionary *)responseType
 useIncrementalUpdates:(BOOL)useIncrementalUpdates
             timeout:(double)timeout
     withCredentials:(BOOL)withCredentials;
@@ -1838,7 +1361,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeNetworkingAndroidSpecJSI : public ObjCTurboModule {
     public:
-      NativeNetworkingAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeNetworkingAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -1851,7 +1374,7 @@ namespace JS {
       NSString *url() const;
       id<NSObject> data() const;
       id<NSObject> headers() const;
-      NSString *responseType() const;
+      id<NSObject> responseType() const;
       bool incrementalUpdates() const;
       double timeout() const;
       bool withCredentials() const;
@@ -1884,7 +1407,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeNetworkingIOSSpecJSI : public ObjCTurboModule {
     public:
-      NativeNetworkingIOSSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeNetworkingIOSSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -1913,7 +1436,7 @@ namespace facebook {
 
     class JSI_EXPORT NativePermissionsAndroidSpecJSI : public ObjCTurboModule {
     public:
-      NativePermissionsAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativePermissionsAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -1963,7 +1486,7 @@ namespace JS {
           RCTRequired<NSString *> Serial;
           RCTRequired<NSString *> Fingerprint;
           RCTRequired<NSString *> Model;
-          NSString *ServerHost;
+          RCTRequired<NSString *> ServerHost;
           RCTRequired<NSString *> uiMode;
         };
 
@@ -2000,7 +1523,7 @@ namespace facebook {
 
     class JSI_EXPORT NativePlatformConstantsAndroidSpecJSI : public ObjCTurboModule {
     public:
-      NativePlatformConstantsAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativePlatformConstantsAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2083,7 +1606,7 @@ namespace facebook {
 
     class JSI_EXPORT NativePlatformConstantsIOSSpecJSI : public ObjCTurboModule {
     public:
-      NativePlatformConstantsIOSSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativePlatformConstantsIOSSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2092,9 +1615,9 @@ namespace facebook {
 namespace JS {
   namespace NativePushNotificationManagerIOS {
     struct SpecRequestPermissionsPermission {
-      bool alert() const;
-      bool badge() const;
-      bool sound() const;
+      folly::Optional<bool> alert() const;
+      folly::Optional<bool> badge() const;
+      folly::Optional<bool> sound() const;
 
       SpecRequestPermissionsPermission(NSDictionary *const v) : _v(v) {}
     private:
@@ -2181,7 +1704,7 @@ namespace facebook {
 
     class JSI_EXPORT NativePushNotificationManagerIOSSpecJSI : public ObjCTurboModule {
     public:
-      NativePushNotificationManagerIOSSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativePushNotificationManagerIOSSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2189,7 +1712,7 @@ namespace facebook {
 @protocol NativeRedBoxSpec <RCTBridgeModule, RCTTurboModule>
 
 - (void)setExtraData:(NSDictionary *)extraData
-       forIdentifier:(NSString *)forIdentifier;
+          identifier:(NSString *)identifier;
 - (void)dismiss;
 
 @end
@@ -2201,7 +1724,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeRedBoxSpecJSI : public ObjCTurboModule {
     public:
-      NativeRedBoxSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeRedBoxSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2224,7 +1747,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeSegmentFetcherSpecJSI : public ObjCTurboModule {
     public:
-      NativeSegmentFetcherSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeSegmentFetcherSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2273,7 +1796,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeSettingsManagerSpecJSI : public ObjCTurboModule {
     public:
-      NativeSettingsManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeSettingsManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2311,7 +1834,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeShareModuleSpecJSI : public ObjCTurboModule {
     public:
-      NativeShareModuleSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeShareModuleSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2329,7 +1852,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeSoundManagerSpecJSI : public ObjCTurboModule {
     public:
-      NativeSoundManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeSoundManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2376,14 +1899,30 @@ namespace facebook {
 
     class JSI_EXPORT NativeSourceCodeSpecJSI : public ObjCTurboModule {
     public:
-      NativeSourceCodeSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeSourceCodeSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
 } // namespace facebook
 
 namespace JS {
-  namespace NativeStatusBarManagerAndroid {
+  namespace NativeStatusBarManager {
+    struct SpecGetHeightCallbackResult {
+      double height() const;
+
+      SpecGetHeightCallbackResult(NSDictionary *const v) : _v(v) {}
+    private:
+      NSDictionary *_v;
+    };
+  }
+}
+
+@interface RCTCxxConvert (NativeStatusBarManager_SpecGetHeightCallbackResult)
++ (RCTManagedPointer *)JS_NativeStatusBarManager_SpecGetHeightCallbackResult:(id)json;
+@end
+
+namespace JS {
+  namespace NativeStatusBarManager {
     struct Constants {
 
       struct Builder {
@@ -2410,98 +1949,32 @@ namespace JS {
     };
   }
 }
-@protocol NativeStatusBarManagerAndroidSpec <RCTBridgeModule, RCTTurboModule>
+@protocol NativeStatusBarManagerSpec <RCTBridgeModule, RCTTurboModule>
 
 - (void)setColor:(double)color
         animated:(BOOL)animated;
 - (void)setTranslucent:(BOOL)translucent;
-- (void)setStyle:(NSString * _Nullable)statusBarStyle;
-- (void)setHidden:(BOOL)hidden;
-- (facebook::react::ModuleConstants<JS::NativeStatusBarManagerAndroid::Constants::Builder>)constantsToExport;
-- (facebook::react::ModuleConstants<JS::NativeStatusBarManagerAndroid::Constants::Builder>)getConstants;
-
-@end
-namespace facebook {
-  namespace react {
-    /**
-     * ObjC++ class for module 'StatusBarManagerAndroid'
-     */
-
-    class JSI_EXPORT NativeStatusBarManagerAndroidSpecJSI : public ObjCTurboModule {
-    public:
-      NativeStatusBarManagerAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
-
-    };
-  } // namespace react
-} // namespace facebook
-
-namespace JS {
-  namespace NativeStatusBarManagerIOS {
-    struct SpecGetHeightCallbackResult {
-      double height() const;
-
-      SpecGetHeightCallbackResult(NSDictionary *const v) : _v(v) {}
-    private:
-      NSDictionary *_v;
-    };
-  }
-}
-
-@interface RCTCxxConvert (NativeStatusBarManagerIOS_SpecGetHeightCallbackResult)
-+ (RCTManagedPointer *)JS_NativeStatusBarManagerIOS_SpecGetHeightCallbackResult:(id)json;
-@end
-
-namespace JS {
-  namespace NativeStatusBarManagerIOS {
-    struct Constants {
-
-      struct Builder {
-        struct Input {
-          RCTRequired<double> HEIGHT;
-          folly::Optional<double> DEFAULT_BACKGROUND_COLOR;
-        };
-
-        /** Initialize with a set of values */
-        Builder(const Input i);
-        /** Initialize with an existing Constants */
-        Builder(Constants i);
-        /** Builds the object. Generally used only by the infrastructure. */
-        NSDictionary *buildUnsafeRawValue() const { return _factory(); };
-      private:
-        NSDictionary *(^_factory)(void);
-      };
-
-      static Constants fromUnsafeRawValue(NSDictionary *const v) { return {v}; }
-      NSDictionary *unsafeRawValue() const { return _v; }
-    private:
-      Constants(NSDictionary *const v) : _v(v) {}
-      NSDictionary *_v;
-    };
-  }
-}
-@protocol NativeStatusBarManagerIOSSpec <RCTBridgeModule, RCTTurboModule>
-
 - (void)getHeight:(RCTResponseSenderBlock)callback;
 - (void)setNetworkActivityIndicatorVisible:(BOOL)visible;
 - (void)addListener:(NSString *)eventType;
 - (void)removeListeners:(double)count;
 - (void)setStyle:(NSString * _Nullable)statusBarStyle
-        animated:(BOOL)animated;
+        animated:(NSNumber *)animated;
 - (void)setHidden:(BOOL)hidden
-    withAnimation:(NSString *)withAnimation;
-- (facebook::react::ModuleConstants<JS::NativeStatusBarManagerIOS::Constants::Builder>)constantsToExport;
-- (facebook::react::ModuleConstants<JS::NativeStatusBarManagerIOS::Constants::Builder>)getConstants;
+    withAnimation:(NSString * _Nullable)withAnimation;
+- (facebook::react::ModuleConstants<JS::NativeStatusBarManager::Constants::Builder>)constantsToExport;
+- (facebook::react::ModuleConstants<JS::NativeStatusBarManager::Constants::Builder>)getConstants;
 
 @end
 namespace facebook {
   namespace react {
     /**
-     * ObjC++ class for module 'StatusBarManagerIOS'
+     * ObjC++ class for module 'StatusBarManager'
      */
 
-    class JSI_EXPORT NativeStatusBarManagerIOSSpecJSI : public ObjCTurboModule {
+    class JSI_EXPORT NativeStatusBarManagerSpecJSI : public ObjCTurboModule {
     public:
-      NativeStatusBarManagerIOSSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeStatusBarManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2520,7 +1993,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeTVNavigationEventEmitterSpecJSI : public ObjCTurboModule {
     public:
-      NativeTVNavigationEventEmitterSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeTVNavigationEventEmitterSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2559,7 +2032,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeTimePickerAndroidSpecJSI : public ObjCTurboModule {
     public:
-      NativeTimePickerAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeTimePickerAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2600,7 +2073,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeTimingSpecJSI : public ObjCTurboModule {
     public:
-      NativeTimingSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeTimingSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2661,7 +2134,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeToastAndroidSpecJSI : public ObjCTurboModule {
     public:
-      NativeToastAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeToastAndroidSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2765,7 +2238,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeUIManagerSpecJSI : public ObjCTurboModule {
     public:
-      NativeUIManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeUIManagerSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2786,7 +2259,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeVibrationSpecJSI : public ObjCTurboModule {
     public:
-      NativeVibrationSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeVibrationSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2794,8 +2267,24 @@ namespace facebook {
 
 namespace JS {
   namespace NativeWebSocketModule {
+    struct SpecConnectOptionsHeaders {
+      NSString *origin() const;
+
+      SpecConnectOptionsHeaders(NSDictionary *const v) : _v(v) {}
+    private:
+      NSDictionary *_v;
+    };
+  }
+}
+
+@interface RCTCxxConvert (NativeWebSocketModule_SpecConnectOptionsHeaders)
++ (RCTManagedPointer *)JS_NativeWebSocketModule_SpecConnectOptionsHeaders:(id)json;
+@end
+
+namespace JS {
+  namespace NativeWebSocketModule {
     struct SpecConnectOptions {
-      id<NSObject> _Nullable headers() const;
+      folly::Optional<JS::NativeWebSocketModule::SpecConnectOptionsHeaders> headers() const;
 
       SpecConnectOptions(NSDictionary *const v) : _v(v) {}
     private:
@@ -2814,9 +2303,9 @@ namespace JS {
         options:(JS::NativeWebSocketModule::SpecConnectOptions &)options
        socketID:(double)socketID;
 - (void)send:(NSString *)message
- forSocketID:(double)forSocketID;
+    socketID:(double)socketID;
 - (void)sendBinary:(NSString *)base64String
-       forSocketID:(double)forSocketID;
+          socketID:(double)socketID;
 - (void)ping:(double)socketID;
 - (void)close:(double)code
        reason:(NSString *)reason
@@ -2833,7 +2322,7 @@ namespace facebook {
 
     class JSI_EXPORT NativeWebSocketModuleSpecJSI : public ObjCTurboModule {
     public:
-      NativeWebSocketModuleSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<CallInvoker> jsInvoker, std::shared_ptr<CallInvoker> nativeInvoker, id<RCTTurboModulePerformanceLogger> perfLogger);
+      NativeWebSocketModuleSpecJSI(id<RCTTurboModule> instance, std::shared_ptr<JSCallInvoker> jsInvoker);
 
     };
   } // namespace react
@@ -2842,62 +2331,62 @@ namespace facebook {
 #import <RCTTypeSafety/RCTConvertHelpers.h>
 
 
-inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultipliers::extraSmall() const
+inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultiipliers::extraSmall() const
 {
   id const p = _v[@"extraSmall"];
   return RCTBridgingToOptionalDouble(p);
 }
-inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultipliers::small() const
+inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultiipliers::small() const
 {
   id const p = _v[@"small"];
   return RCTBridgingToOptionalDouble(p);
 }
-inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultipliers::medium() const
+inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultiipliers::medium() const
 {
   id const p = _v[@"medium"];
   return RCTBridgingToOptionalDouble(p);
 }
-inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultipliers::large() const
+inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultiipliers::large() const
 {
   id const p = _v[@"large"];
   return RCTBridgingToOptionalDouble(p);
 }
-inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultipliers::extraLarge() const
+inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultiipliers::extraLarge() const
 {
   id const p = _v[@"extraLarge"];
   return RCTBridgingToOptionalDouble(p);
 }
-inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultipliers::extraExtraLarge() const
+inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultiipliers::extraExtraLarge() const
 {
   id const p = _v[@"extraExtraLarge"];
   return RCTBridgingToOptionalDouble(p);
 }
-inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultipliers::extraExtraExtraLarge() const
+inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultiipliers::extraExtraExtraLarge() const
 {
   id const p = _v[@"extraExtraExtraLarge"];
   return RCTBridgingToOptionalDouble(p);
 }
-inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultipliers::accessibilityMedium() const
+inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultiipliers::accessibilityMedium() const
 {
   id const p = _v[@"accessibilityMedium"];
   return RCTBridgingToOptionalDouble(p);
 }
-inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultipliers::accessibilityLarge() const
+inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultiipliers::accessibilityLarge() const
 {
   id const p = _v[@"accessibilityLarge"];
   return RCTBridgingToOptionalDouble(p);
 }
-inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultipliers::accessibilityExtraLarge() const
+inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultiipliers::accessibilityExtraLarge() const
 {
   id const p = _v[@"accessibilityExtraLarge"];
   return RCTBridgingToOptionalDouble(p);
 }
-inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultipliers::accessibilityExtraExtraLarge() const
+inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultiipliers::accessibilityExtraExtraLarge() const
 {
   id const p = _v[@"accessibilityExtraExtraLarge"];
   return RCTBridgingToOptionalDouble(p);
 }
-inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultipliers::accessibilityExtraExtraExtraLarge() const
+inline folly::Optional<double> JS::NativeAccessibilityManager::SpecSetAccessibilityContentSizeMultipliersJSMultiipliers::accessibilityExtraExtraExtraLarge() const
 {
   id const p = _v[@"accessibilityExtraExtraExtraLarge"];
   return RCTBridgingToOptionalDouble(p);
@@ -2917,10 +2406,10 @@ inline folly::Optional<facebook::react::LazyVector<NSString *>> JS::NativeAction
   id const p = _v[@"options"];
   return RCTBridgingToOptionalVec(p, ^NSString *(id itemValue_0) { return RCTBridgingToString(itemValue_0); });
 }
-inline folly::Optional<facebook::react::LazyVector<double>> JS::NativeActionSheetManager::SpecShowActionSheetWithOptionsOptions::destructiveButtonIndices() const
+inline folly::Optional<double> JS::NativeActionSheetManager::SpecShowActionSheetWithOptionsOptions::destructiveButtonIndex() const
 {
-  id const p = _v[@"destructiveButtonIndices"];
-  return RCTBridgingToOptionalVec(p, ^double(id itemValue_0) { return RCTBridgingToDouble(itemValue_0); });
+  id const p = _v[@"destructiveButtonIndex"];
+  return RCTBridgingToOptionalDouble(p);
 }
 inline folly::Optional<double> JS::NativeActionSheetManager::SpecShowActionSheetWithOptionsOptions::cancelButtonIndex() const
 {
@@ -2936,11 +2425,6 @@ inline folly::Optional<double> JS::NativeActionSheetManager::SpecShowActionSheet
 {
   id const p = _v[@"tintColor"];
   return RCTBridgingToOptionalDouble(p);
-}
-inline NSString *JS::NativeActionSheetManager::SpecShowActionSheetWithOptionsOptions::userInterfaceStyle() const
-{
-  id const p = _v[@"userInterfaceStyle"];
-  return RCTBridgingToString(p);
 }
 inline NSString *JS::NativeActionSheetManager::SpecShowShareActionSheetWithOptionsOptions::message() const
 {
@@ -2972,11 +2456,6 @@ inline folly::Optional<facebook::react::LazyVector<NSString *>> JS::NativeAction
   id const p = _v[@"excludedActivityTypes"];
   return RCTBridgingToOptionalVec(p, ^NSString *(id itemValue_0) { return RCTBridgingToString(itemValue_0); });
 }
-inline NSString *JS::NativeActionSheetManager::SpecShowShareActionSheetWithOptionsOptions::userInterfaceStyle() const
-{
-  id const p = _v[@"userInterfaceStyle"];
-  return RCTBridgingToString(p);
-}
 inline NSString *JS::NativeActionSheetManager::SpecShowShareActionSheetWithOptionsFailureCallbackError::domain() const
 {
   id const p = _v[@"domain"];
@@ -3007,10 +2486,10 @@ inline NSString *JS::NativeAlertManager::Args::message() const
   id const p = _v[@"message"];
   return RCTBridgingToString(p);
 }
-inline folly::Optional<facebook::react::LazyVector<id<NSObject>>> JS::NativeAlertManager::Args::buttons() const
+inline id<NSObject> _Nullable JS::NativeAlertManager::Args::buttons() const
 {
   id const p = _v[@"buttons"];
-  return RCTBridgingToOptionalVec(p, ^id<NSObject>(id itemValue_0) { return itemValue_0; });
+  return p;
 }
 inline NSString *JS::NativeAlertManager::Args::type() const
 {
@@ -3035,6 +2514,16 @@ inline NSString *JS::NativeAlertManager::Args::destructiveButtonKey() const
 inline NSString *JS::NativeAlertManager::Args::keyboardType() const
 {
   id const p = _v[@"keyboardType"];
+  return RCTBridgingToString(p);
+}
+inline NSString *JS::NativeAnimatedModule::AnimatedNodeConfig::type() const
+{
+  id const p = _v[@"type"];
+  return RCTBridgingToString(p);
+}
+inline NSString *JS::NativeAnimatedModule::AnimatingNodeConfig::type() const
+{
+  id const p = _v[@"type"];
   return RCTBridgingToString(p);
 }
 inline bool JS::NativeAnimatedModule::EndResult::finished() const
@@ -3066,11 +2555,6 @@ inline JS::NativeAppState::Constants::Builder::Builder(const Input i) : _factory
 inline JS::NativeAppState::Constants::Builder::Builder(Constants i) : _factory(^{
   return i.unsafeRawValue();
 }) {}
-inline NSString *JS::NativeAppearance::AppearancePreferences::colorScheme() const
-{
-  id const p = _v[@"colorScheme"];
-  return RCTBridgingToString(p);
-}
 inline NSString *JS::NativeAsyncStorage::SpecMultiGetCallbackErrorsElement::message() const
 {
   id const p = _v[@"message"];
@@ -3112,202 +2596,10 @@ inline JS::NativeBlobModule::Constants::Builder::Builder(const Input i) : _facto
 inline JS::NativeBlobModule::Constants::Builder::Builder(Constants i) : _factory(^{
   return i.unsafeRawValue();
 }) {}
-inline double JS::NativeCameraRollManager::GetPhotosParams::first() const
-{
-  id const p = _v[@"first"];
-  return RCTBridgingToDouble(p);
-}
-inline NSString *JS::NativeCameraRollManager::GetPhotosParams::after() const
-{
-  id const p = _v[@"after"];
-  return RCTBridgingToString(p);
-}
-inline NSString *JS::NativeCameraRollManager::GetPhotosParams::groupName() const
-{
-  id const p = _v[@"groupName"];
-  return RCTBridgingToString(p);
-}
-inline NSString *JS::NativeCameraRollManager::GetPhotosParams::groupTypes() const
-{
-  id const p = _v[@"groupTypes"];
-  return RCTBridgingToString(p);
-}
-inline NSString *JS::NativeCameraRollManager::GetPhotosParams::assetType() const
-{
-  id const p = _v[@"assetType"];
-  return RCTBridgingToString(p);
-}
-inline folly::Optional<double> JS::NativeCameraRollManager::GetPhotosParams::maxSize() const
-{
-  id const p = _v[@"maxSize"];
-  return RCTBridgingToOptionalDouble(p);
-}
-inline folly::Optional<facebook::react::LazyVector<NSString *>> JS::NativeCameraRollManager::GetPhotosParams::mimeTypes() const
-{
-  id const p = _v[@"mimeTypes"];
-  return RCTBridgingToOptionalVec(p, ^NSString *(id itemValue_0) { return RCTBridgingToString(itemValue_0); });
-}
-inline NSString *JS::NativeCameraRollManager::PhotoIdentifierNodeImage::uri() const
-{
-  id const p = _v[@"uri"];
-  return RCTBridgingToString(p);
-}
-inline double JS::NativeCameraRollManager::PhotoIdentifierNodeImage::playableDuration() const
-{
-  id const p = _v[@"playableDuration"];
-  return RCTBridgingToDouble(p);
-}
-inline double JS::NativeCameraRollManager::PhotoIdentifierNodeImage::width() const
-{
-  id const p = _v[@"width"];
-  return RCTBridgingToDouble(p);
-}
-inline double JS::NativeCameraRollManager::PhotoIdentifierNodeImage::height() const
-{
-  id const p = _v[@"height"];
-  return RCTBridgingToDouble(p);
-}
-inline folly::Optional<bool> JS::NativeCameraRollManager::PhotoIdentifierNodeImage::isStored() const
-{
-  id const p = _v[@"isStored"];
-  return RCTBridgingToOptionalBool(p);
-}
-inline NSString *JS::NativeCameraRollManager::PhotoIdentifierNodeImage::filename() const
-{
-  id const p = _v[@"filename"];
-  return RCTBridgingToString(p);
-}
-inline double JS::NativeCameraRollManager::PhotoIdentifierNodeLocation::longitude() const
-{
-  id const p = _v[@"longitude"];
-  return RCTBridgingToDouble(p);
-}
-inline double JS::NativeCameraRollManager::PhotoIdentifierNodeLocation::latitude() const
-{
-  id const p = _v[@"latitude"];
-  return RCTBridgingToDouble(p);
-}
-inline folly::Optional<double> JS::NativeCameraRollManager::PhotoIdentifierNodeLocation::altitude() const
-{
-  id const p = _v[@"altitude"];
-  return RCTBridgingToOptionalDouble(p);
-}
-inline folly::Optional<double> JS::NativeCameraRollManager::PhotoIdentifierNodeLocation::heading() const
-{
-  id const p = _v[@"heading"];
-  return RCTBridgingToOptionalDouble(p);
-}
-inline folly::Optional<double> JS::NativeCameraRollManager::PhotoIdentifierNodeLocation::speed() const
-{
-  id const p = _v[@"speed"];
-  return RCTBridgingToOptionalDouble(p);
-}
-inline JS::NativeCameraRollManager::PhotoIdentifierNodeImage JS::NativeCameraRollManager::PhotoIdentifierNode::image() const
-{
-  id const p = _v[@"image"];
-  return JS::NativeCameraRollManager::PhotoIdentifierNodeImage(p);
-}
-inline NSString *JS::NativeCameraRollManager::PhotoIdentifierNode::type() const
-{
-  id const p = _v[@"type"];
-  return RCTBridgingToString(p);
-}
-inline NSString *JS::NativeCameraRollManager::PhotoIdentifierNode::group_name() const
-{
-  id const p = _v[@"group_name"];
-  return RCTBridgingToString(p);
-}
-inline double JS::NativeCameraRollManager::PhotoIdentifierNode::timestamp() const
-{
-  id const p = _v[@"timestamp"];
-  return RCTBridgingToDouble(p);
-}
-inline JS::NativeCameraRollManager::PhotoIdentifierNodeLocation JS::NativeCameraRollManager::PhotoIdentifierNode::location() const
-{
-  id const p = _v[@"location"];
-  return JS::NativeCameraRollManager::PhotoIdentifierNodeLocation(p);
-}
-inline JS::NativeCameraRollManager::PhotoIdentifierNode JS::NativeCameraRollManager::PhotoIdentifier::node() const
-{
-  id const p = _v[@"node"];
-  return JS::NativeCameraRollManager::PhotoIdentifierNode(p);
-}
-inline bool JS::NativeCameraRollManager::PhotoIdentifiersPagePage_info::has_next_page() const
-{
-  id const p = _v[@"has_next_page"];
-  return RCTBridgingToBool(p);
-}
-inline NSString *JS::NativeCameraRollManager::PhotoIdentifiersPagePage_info::start_cursor() const
-{
-  id const p = _v[@"start_cursor"];
-  return RCTBridgingToString(p);
-}
-inline NSString *JS::NativeCameraRollManager::PhotoIdentifiersPagePage_info::end_cursor() const
-{
-  id const p = _v[@"end_cursor"];
-  return RCTBridgingToString(p);
-}
-inline facebook::react::LazyVector<JS::NativeCameraRollManager::PhotoIdentifier> JS::NativeCameraRollManager::PhotoIdentifiersPage::edges() const
-{
-  id const p = _v[@"edges"];
-  return RCTBridgingToVec(p, ^JS::NativeCameraRollManager::PhotoIdentifier(id itemValue_0) { return JS::NativeCameraRollManager::PhotoIdentifier(itemValue_0); });
-}
-inline JS::NativeCameraRollManager::PhotoIdentifiersPagePage_info JS::NativeCameraRollManager::PhotoIdentifiersPage::page_info() const
-{
-  id const p = _v[@"page_info"];
-  return JS::NativeCameraRollManager::PhotoIdentifiersPagePage_info(p);
-}
-inline JS::NativeDeviceInfo::DisplayMetrics::Builder::Builder(const Input i) : _factory(^{
-  NSMutableDictionary *d = [NSMutableDictionary new];
-  auto width = i.width.get();
-  d[@"width"] = @(width);
-  auto height = i.height.get();
-  d[@"height"] = @(height);
-  auto scale = i.scale.get();
-  d[@"scale"] = @(scale);
-  auto fontScale = i.fontScale.get();
-  d[@"fontScale"] = @(fontScale);
-  return d;
-}) {}
-inline JS::NativeDeviceInfo::DisplayMetrics::Builder::Builder(DisplayMetrics i) : _factory(^{
-  return i.unsafeRawValue();
-}) {}
-inline JS::NativeDeviceInfo::DisplayMetricsAndroid::Builder::Builder(const Input i) : _factory(^{
-  NSMutableDictionary *d = [NSMutableDictionary new];
-  auto width = i.width.get();
-  d[@"width"] = @(width);
-  auto height = i.height.get();
-  d[@"height"] = @(height);
-  auto scale = i.scale.get();
-  d[@"scale"] = @(scale);
-  auto fontScale = i.fontScale.get();
-  d[@"fontScale"] = @(fontScale);
-  auto densityDpi = i.densityDpi.get();
-  d[@"densityDpi"] = @(densityDpi);
-  return d;
-}) {}
-inline JS::NativeDeviceInfo::DisplayMetricsAndroid::Builder::Builder(DisplayMetricsAndroid i) : _factory(^{
-  return i.unsafeRawValue();
-}) {}
-inline JS::NativeDeviceInfo::DimensionsPayload::Builder::Builder(const Input i) : _factory(^{
-  NSMutableDictionary *d = [NSMutableDictionary new];
-  auto window = i.window;
-  d[@"window"] = window.hasValue() ? window.value().buildUnsafeRawValue() : nil;
-  auto screen = i.screen;
-  d[@"screen"] = screen.hasValue() ? screen.value().buildUnsafeRawValue() : nil;
-  auto windowPhysicalPixels = i.windowPhysicalPixels;
-  d[@"windowPhysicalPixels"] = windowPhysicalPixels.hasValue() ? windowPhysicalPixels.value().buildUnsafeRawValue() : nil;
-  auto screenPhysicalPixels = i.screenPhysicalPixels;
-  d[@"screenPhysicalPixels"] = screenPhysicalPixels.hasValue() ? screenPhysicalPixels.value().buildUnsafeRawValue() : nil;
-  return d;
-}) {}
-inline JS::NativeDeviceInfo::DimensionsPayload::Builder::Builder(DimensionsPayload i) : _factory(^{
-  return i.unsafeRawValue();
-}) {}
 inline JS::NativeDeviceInfo::Constants::Builder::Builder(const Input i) : _factory(^{
   NSMutableDictionary *d = [NSMutableDictionary new];
   auto Dimensions = i.Dimensions.get();
-  d[@"Dimensions"] = Dimensions.buildUnsafeRawValue();
+  d[@"Dimensions"] = Dimensions;
   auto isIPhoneX_deprecated = i.isIPhoneX_deprecated;
   d[@"isIPhoneX_deprecated"] = isIPhoneX_deprecated.hasValue() ? @((BOOL)isIPhoneX_deprecated.value()) : nil;
   return d;
@@ -3453,61 +2745,6 @@ inline JS::NativeI18nManager::Constants::Builder::Builder(const Input i) : _fact
 inline JS::NativeI18nManager::Constants::Builder::Builder(Constants i) : _factory(^{
   return i.unsafeRawValue();
 }) {}
-inline double JS::NativeImageEditor::OptionsOffset::x() const
-{
-  id const p = _v[@"x"];
-  return RCTBridgingToDouble(p);
-}
-inline double JS::NativeImageEditor::OptionsOffset::y() const
-{
-  id const p = _v[@"y"];
-  return RCTBridgingToDouble(p);
-}
-inline double JS::NativeImageEditor::OptionsSize::width() const
-{
-  id const p = _v[@"width"];
-  return RCTBridgingToDouble(p);
-}
-inline double JS::NativeImageEditor::OptionsSize::height() const
-{
-  id const p = _v[@"height"];
-  return RCTBridgingToDouble(p);
-}
-inline double JS::NativeImageEditor::OptionsDisplaySize::width() const
-{
-  id const p = _v[@"width"];
-  return RCTBridgingToDouble(p);
-}
-inline double JS::NativeImageEditor::OptionsDisplaySize::height() const
-{
-  id const p = _v[@"height"];
-  return RCTBridgingToDouble(p);
-}
-inline JS::NativeImageEditor::OptionsOffset JS::NativeImageEditor::Options::offset() const
-{
-  id const p = _v[@"offset"];
-  return JS::NativeImageEditor::OptionsOffset(p);
-}
-inline JS::NativeImageEditor::OptionsSize JS::NativeImageEditor::Options::size() const
-{
-  id const p = _v[@"size"];
-  return JS::NativeImageEditor::OptionsSize(p);
-}
-inline folly::Optional<JS::NativeImageEditor::OptionsDisplaySize> JS::NativeImageEditor::Options::displaySize() const
-{
-  id const p = _v[@"displaySize"];
-  return (p == nil ? folly::none : folly::make_optional(JS::NativeImageEditor::OptionsDisplaySize(p)));
-}
-inline NSString *JS::NativeImageEditor::Options::resizeMode() const
-{
-  id const p = _v[@"resizeMode"];
-  return RCTBridgingToString(p);
-}
-inline folly::Optional<bool> JS::NativeImageEditor::Options::allowExternalStorage() const
-{
-  id const p = _v[@"allowExternalStorage"];
-  return RCTBridgingToOptionalBool(p);
-}
 inline bool JS::NativeImagePickerIOS::SpecOpenCameraDialogConfig::unmirrorFrontFacingCamera() const
 {
   id const p = _v[@"unmirrorFrontFacingCamera"];
@@ -3527,11 +2764,6 @@ inline bool JS::NativeImagePickerIOS::SpecOpenSelectDialogConfig::showVideos() c
 {
   id const p = _v[@"showVideos"];
   return RCTBridgingToBool(p);
-}
-inline NSString *JS::NativeImageStore::SpecAddImageFromBase64ErrorCallbackError::message() const
-{
-  id const p = _v[@"message"];
-  return RCTBridgingToString(p);
 }
 inline JS::NativeJSDevSupport::Constants::Builder::Builder(const Input i) : _factory(^{
   NSMutableDictionary *d = [NSMutableDictionary new];
@@ -3554,6 +2786,16 @@ inline id<NSObject> JS::NativeLinking::SpecSendIntentExtrasElement::value() cons
   id const p = _v[@"value"];
   return p;
 }
+inline NSString *JS::NativeNetworkingAndroid::Header::first() const
+{
+  id const p = _v[0];
+  return RCTBridgingToString(p);
+}
+inline NSString *JS::NativeNetworkingAndroid::Header::second() const
+{
+  id const p = _v[1];
+  return RCTBridgingToString(p);
+}
 inline NSString *JS::NativeNetworkingIOS::SpecSendRequestQuery::method() const
 {
   id const p = _v[@"method"];
@@ -3574,10 +2816,10 @@ inline id<NSObject> JS::NativeNetworkingIOS::SpecSendRequestQuery::headers() con
   id const p = _v[@"headers"];
   return p;
 }
-inline NSString *JS::NativeNetworkingIOS::SpecSendRequestQuery::responseType() const
+inline id<NSObject> JS::NativeNetworkingIOS::SpecSendRequestQuery::responseType() const
 {
   id const p = _v[@"responseType"];
-  return RCTBridgingToString(p);
+  return p;
 }
 inline bool JS::NativeNetworkingIOS::SpecSendRequestQuery::incrementalUpdates() const
 {
@@ -3625,7 +2867,7 @@ inline JS::NativePlatformConstantsAndroid::Constants::Builder::Builder(const Inp
   d[@"Fingerprint"] = Fingerprint;
   auto Model = i.Model.get();
   d[@"Model"] = Model;
-  auto ServerHost = i.ServerHost;
+  auto ServerHost = i.ServerHost.get();
   d[@"ServerHost"] = ServerHost;
   auto uiMode = i.uiMode.get();
   d[@"uiMode"] = uiMode;
@@ -3668,20 +2910,20 @@ inline JS::NativePlatformConstantsIOS::Constants::Builder::Builder(const Input i
 inline JS::NativePlatformConstantsIOS::Constants::Builder::Builder(Constants i) : _factory(^{
   return i.unsafeRawValue();
 }) {}
-inline bool JS::NativePushNotificationManagerIOS::SpecRequestPermissionsPermission::alert() const
+inline folly::Optional<bool> JS::NativePushNotificationManagerIOS::SpecRequestPermissionsPermission::alert() const
 {
   id const p = _v[@"alert"];
-  return RCTBridgingToBool(p);
+  return RCTBridgingToOptionalBool(p);
 }
-inline bool JS::NativePushNotificationManagerIOS::SpecRequestPermissionsPermission::badge() const
+inline folly::Optional<bool> JS::NativePushNotificationManagerIOS::SpecRequestPermissionsPermission::badge() const
 {
   id const p = _v[@"badge"];
-  return RCTBridgingToBool(p);
+  return RCTBridgingToOptionalBool(p);
 }
-inline bool JS::NativePushNotificationManagerIOS::SpecRequestPermissionsPermission::sound() const
+inline folly::Optional<bool> JS::NativePushNotificationManagerIOS::SpecRequestPermissionsPermission::sound() const
 {
   id const p = _v[@"sound"];
-  return RCTBridgingToBool(p);
+  return RCTBridgingToOptionalBool(p);
 }
 inline bool JS::NativePushNotificationManagerIOS::Permissions::alert() const
 {
@@ -3771,7 +3013,12 @@ inline JS::NativeSourceCode::Constants::Builder::Builder(const Input i) : _facto
 inline JS::NativeSourceCode::Constants::Builder::Builder(Constants i) : _factory(^{
   return i.unsafeRawValue();
 }) {}
-inline JS::NativeStatusBarManagerAndroid::Constants::Builder::Builder(const Input i) : _factory(^{
+inline double JS::NativeStatusBarManager::SpecGetHeightCallbackResult::height() const
+{
+  id const p = _v[@"height"];
+  return RCTBridgingToDouble(p);
+}
+inline JS::NativeStatusBarManager::Constants::Builder::Builder(const Input i) : _factory(^{
   NSMutableDictionary *d = [NSMutableDictionary new];
   auto HEIGHT = i.HEIGHT.get();
   d[@"HEIGHT"] = @(HEIGHT);
@@ -3779,23 +3026,7 @@ inline JS::NativeStatusBarManagerAndroid::Constants::Builder::Builder(const Inpu
   d[@"DEFAULT_BACKGROUND_COLOR"] = @(DEFAULT_BACKGROUND_COLOR);
   return d;
 }) {}
-inline JS::NativeStatusBarManagerAndroid::Constants::Builder::Builder(Constants i) : _factory(^{
-  return i.unsafeRawValue();
-}) {}
-inline double JS::NativeStatusBarManagerIOS::SpecGetHeightCallbackResult::height() const
-{
-  id const p = _v[@"height"];
-  return RCTBridgingToDouble(p);
-}
-inline JS::NativeStatusBarManagerIOS::Constants::Builder::Builder(const Input i) : _factory(^{
-  NSMutableDictionary *d = [NSMutableDictionary new];
-  auto HEIGHT = i.HEIGHT.get();
-  d[@"HEIGHT"] = @(HEIGHT);
-  auto DEFAULT_BACKGROUND_COLOR = i.DEFAULT_BACKGROUND_COLOR;
-  d[@"DEFAULT_BACKGROUND_COLOR"] = DEFAULT_BACKGROUND_COLOR.hasValue() ? @((double)DEFAULT_BACKGROUND_COLOR.value()) : nil;
-  return d;
-}) {}
-inline JS::NativeStatusBarManagerIOS::Constants::Builder::Builder(Constants i) : _factory(^{
+inline JS::NativeStatusBarManager::Constants::Builder::Builder(Constants i) : _factory(^{
   return i.unsafeRawValue();
 }) {}
 inline folly::Optional<double> JS::NativeTimePickerAndroid::TimePickerOptions::hour() const
@@ -3857,8 +3088,13 @@ inline JS::NativeUIManager::Constants::Builder::Builder(const Input i) : _factor
 inline JS::NativeUIManager::Constants::Builder::Builder(Constants i) : _factory(^{
   return i.unsafeRawValue();
 }) {}
-inline id<NSObject> _Nullable JS::NativeWebSocketModule::SpecConnectOptions::headers() const
+inline NSString *JS::NativeWebSocketModule::SpecConnectOptionsHeaders::origin() const
+{
+  id const p = _v[@"origin"];
+  return RCTBridgingToString(p);
+}
+inline folly::Optional<JS::NativeWebSocketModule::SpecConnectOptionsHeaders> JS::NativeWebSocketModule::SpecConnectOptions::headers() const
 {
   id const p = _v[@"headers"];
-  return p;
+  return (p == nil ? folly::none : folly::make_optional(JS::NativeWebSocketModule::SpecConnectOptionsHeaders(p)));
 }

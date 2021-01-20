@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -20,12 +20,14 @@ namespace react {
 class SliderComponentDescriptor final
     : public ConcreteComponentDescriptor<SliderShadowNode> {
  public:
-  SliderComponentDescriptor(ComponentDescriptorParameters const &parameters)
-      : ConcreteComponentDescriptor(parameters),
-        imageManager_(std::make_shared<ImageManager>(contextContainer_)),
+  SliderComponentDescriptor(
+      EventDispatcher::Shared eventDispatcher,
+      ContextContainer::Shared const &contextContainer)
+      : ConcreteComponentDescriptor(eventDispatcher),
+        imageManager_(std::make_shared<ImageManager>(contextContainer)),
         measurementsManager_(
             SliderMeasurementsManager::shouldMeasureSlider()
-                ? std::make_shared<SliderMeasurementsManager>(contextContainer_)
+                ? std::make_shared<SliderMeasurementsManager>(contextContainer)
                 : nullptr) {}
 
   void adopt(UnsharedShadowNode shadowNode) const override {

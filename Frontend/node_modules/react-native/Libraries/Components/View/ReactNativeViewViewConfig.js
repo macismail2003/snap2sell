@@ -10,14 +10,13 @@
 
 'use strict';
 import ReactNativeViewViewConfigAndroid from './ReactNativeViewViewConfigAndroid';
-import {Platform} from 'react-native';
 
 const ReactNativeViewConfig = {
   uiViewClassName: 'RCTView',
   baseModuleName: null,
   Manager: 'ViewManager',
-  Commands: ({}: {...}),
-  Constants: ({}: {...}),
+  Commands: ({}: $TEMPORARY$object<{||}>),
+  Constants: ({}: $TEMPORARY$object<{||}>),
   bubblingEventTypes: {
     ...ReactNativeViewViewConfigAndroid.bubblingEventTypes,
     topBlur: {
@@ -122,9 +121,8 @@ const ReactNativeViewConfig = {
     accessibilityLabel: true,
     accessibilityLiveRegion: true,
     accessibilityRole: true,
-    accessibilityStates: true, // TODO: Can be removed after next release
+    accessibilityStates: true,
     accessibilityState: true,
-    accessibilityValue: true,
     accessibilityViewIsModal: true,
     accessible: true,
     alignContent: true,
@@ -322,9 +320,7 @@ const ReactNativeViewConfig = {
       textTransform: true,
       tintColor: {process: require('../../StyleSheet/processColor')},
       top: true,
-      transform: ((Platform.OS === 'ios'
-        ? {diff: require('../../Utilities/differ/matricesDiffer')}
-        : {process: require('../../StyleSheet/processTransform')}): any),
+      transform: {diff: require('../../Utilities/differ/matricesDiffer')},
       transformMatrix: true,
       translateX: true,
       translateY: true,
@@ -334,9 +330,7 @@ const ReactNativeViewConfig = {
     },
     testID: true,
     top: true,
-    transform: ((Platform.OS === 'ios'
-      ? {diff: require('../../Utilities/differ/matricesDiffer')}
-      : {process: require('../../StyleSheet/processTransform')}): any),
+    transform: {diff: require('../../Utilities/differ/matricesDiffer')},
     translateX: true,
     translateY: true,
     width: true,

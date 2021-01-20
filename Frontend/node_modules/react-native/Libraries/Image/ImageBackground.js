@@ -7,7 +7,6 @@
  * @flow
  * @format
  */
-
 'use strict';
 
 const Image = require('./Image');
@@ -27,7 +26,7 @@ const View = require('../Components/View/View');
  *     return (
  *       <ImageBackground
  *         style={{width: 50, height: 50}}
- *         source={{uri: 'https://reactnative.dev/img/opengraph.png'}}
+ *         source={{uri: 'https://facebook.github.io/react-native/img/opengraph.png'}}
  *       >
  *         <Text>React</Text>
  *       </ImageBackground>

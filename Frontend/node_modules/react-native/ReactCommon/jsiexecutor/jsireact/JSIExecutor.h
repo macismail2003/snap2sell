@@ -1,9 +1,7 @@
-/*
- * Copyright (c) Facebook, Inc. and its affiliates.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */
+//  Copyright (c) Facebook, Inc. and its affiliates.
+//
+// This source code is licensed under the MIT license found in the
+// LICENSE file in the root directory of this source tree.
 
 #pragma once
 
@@ -77,8 +75,7 @@ class JSIExecutor : public JSExecutor {
       std::shared_ptr<ExecutorDelegate> delegate,
       const JSIScopedTimeoutInvoker &timeoutInvoker,
       RuntimeInstaller runtimeInstaller);
-  void initializeRuntime() override;
-  void loadBundle(
+  void loadApplicationScript(
       std::unique_ptr<const JSBigString> script,
       std::string sourceURL) override;
   void setBundleRegistry(std::unique_ptr<RAMBundleRegistry>) override;
@@ -96,7 +93,6 @@ class JSIExecutor : public JSExecutor {
   std::string getDescription() override;
   void *getJavaScriptContext() override;
   bool isInspectable() override;
-  void handleMemoryPressure(int pressureLevel) override;
 
   // An implementation of JSIScopedTimeoutInvoker that simply runs the
   // invokee, with no timeout.
@@ -122,7 +118,7 @@ class JSIExecutor : public JSExecutor {
 
   std::shared_ptr<jsi::Runtime> runtime_;
   std::shared_ptr<ExecutorDelegate> delegate_;
-  std::shared_ptr<JSINativeModules> nativeModules_;
+  JSINativeModules nativeModules_;
   std::once_flag bindFlag_;
   std::unique_ptr<RAMBundleRegistry> bundleRegistry_;
   JSIScopedTimeoutInvoker scopedTimeoutInvoker_;
@@ -131,15 +127,11 @@ class JSIExecutor : public JSExecutor {
   folly::Optional<jsi::Function> callFunctionReturnFlushedQueue_;
   folly::Optional<jsi::Function> invokeCallbackAndReturnFlushedQueue_;
   folly::Optional<jsi::Function> flushedQueue_;
+  folly::Optional<jsi::Function> callFunctionReturnResultAndFlushedQueue_;
 };
 
 using Logger =
     std::function<void(const std::string &message, unsigned int logLevel)>;
 void bindNativeLogger(jsi::Runtime &runtime, Logger logger);
-
-using PerformanceNow = std::function<double()>;
-void bindNativePerformanceNow(
-    jsi::Runtime &runtime,
-    PerformanceNow performanceNow);
 } // namespace react
 } // namespace facebook

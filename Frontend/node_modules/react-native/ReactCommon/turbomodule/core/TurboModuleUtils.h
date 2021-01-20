@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
  * This source code is licensed under the MIT license found in the
@@ -13,8 +13,7 @@
 #include <folly/Optional.h>
 #include <jsi/jsi.h>
 
-#include <ReactCommon/CallInvoker.h>
-#include <ReactCommon/LongLivedObject.h>
+#include <ReactCommon/JSCallInvoker.h>
 
 using namespace facebook;
 
@@ -24,7 +23,7 @@ namespace react {
 jsi::Object deepCopyJSIObject(jsi::Runtime &rt, const jsi::Object &obj);
 jsi::Array deepCopyJSIArray(jsi::Runtime &rt, const jsi::Array &arr);
 
-struct Promise : public LongLivedObject {
+struct Promise {
   Promise(jsi::Runtime &rt, jsi::Function resolve, jsi::Function reject);
 
   void resolve(const jsi::Value &result);
@@ -42,46 +41,53 @@ jsi::Value createPromiseAsJSIValue(
     const PromiseSetupFunctionType func);
 
 // Helper for passing jsi::Function arg to other methods.
-class CallbackWrapper : public LongLivedObject {
+class CallbackWrapper {
  private:
-  CallbackWrapper(
-      jsi::Function &&callback,
-      jsi::Runtime &runtime,
-      std::shared_ptr<CallInvoker> jsInvoker)
-      : callback_(std::move(callback)),
-        runtime_(runtime),
-        jsInvoker_(std::move(jsInvoker)) {}
+  struct Data {
+    Data(
+        jsi::Function callback,
+        jsi::Runtime &runtime,
+        std::shared_ptr<react::JSCallInvoker> jsInvoker)
+        : callback(std::move(callback)),
+          runtime(runtime),
+          jsInvoker(std::move(jsInvoker)) {}
 
-  jsi::Function callback_;
-  jsi::Runtime &runtime_;
-  std::shared_ptr<CallInvoker> jsInvoker_;
+    jsi::Function callback;
+    jsi::Runtime &runtime;
+    std::shared_ptr<react::JSCallInvoker> jsInvoker;
+  };
+
+  folly::Optional<Data> data_;
 
  public:
-  static std::weak_ptr<CallbackWrapper> createWeak(
-      jsi::Function &&callback,
+  CallbackWrapper(
+      jsi::Function callback,
       jsi::Runtime &runtime,
-      std::shared_ptr<CallInvoker> jsInvoker) {
-    auto wrapper = std::shared_ptr<CallbackWrapper>(
-        new CallbackWrapper(std::move(callback), runtime, jsInvoker));
-    LongLivedObjectCollection::get().add(wrapper);
-    return wrapper;
-  }
+      std::shared_ptr<react::JSCallInvoker> jsInvoker)
+      : data_(Data{std::move(callback), runtime, jsInvoker}) {}
 
   // Delete the enclosed jsi::Function
   void destroy() {
-    allowRelease();
+    data_ = folly::none;
+  }
+
+  bool isDestroyed() {
+    return !data_.hasValue();
   }
 
   jsi::Function &callback() {
-    return callback_;
+    assert(!isDestroyed());
+    return data_->callback;
   }
 
   jsi::Runtime &runtime() {
-    return runtime_;
+    assert(!isDestroyed());
+    return data_->runtime;
   }
 
-  CallInvoker &jsInvoker() {
-    return *(jsInvoker_);
+  react::JSCallInvoker &jsInvoker() {
+    assert(!isDestroyed());
+    return *(data_->jsInvoker);
   }
 };
 

@@ -1,10 +1,9 @@
 /*
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
+ * This source code is licensed under the MIT license found in the LICENSE
+ * file in the root directory of this source tree.
  */
-
 #pragma once
 
 #include <tuple>
@@ -326,8 +325,7 @@ class RuntimeDecorator : public Base, private jsi::Instrumentation {
     return plain().instrumentation().getRecordedGCStats();
   }
 
-  std::unordered_map<std::string, int64_t> getHeapInfo(
-      bool includeExpensive) override {
+  Value getHeapInfo(bool includeExpensive) override {
     return plain().instrumentation().getHeapInfo(includeExpensive);
   }
 
@@ -335,26 +333,18 @@ class RuntimeDecorator : public Base, private jsi::Instrumentation {
     plain().instrumentation().collectGarbage();
   }
 
-  void startTrackingHeapObjectStackTraces() override {
-    plain().instrumentation().startTrackingHeapObjectStackTraces();
+  bool createSnapshotToFile(const std::string& path, bool compact) override {
+    return plain().instrumentation().createSnapshotToFile(path, compact);
   }
 
-  void stopTrackingHeapObjectStackTraces() override {
-    plain().instrumentation().stopTrackingHeapObjectStackTraces();
+  bool createSnapshotToStream(std::ostream& os, bool compact) override {
+    return plain().instrumentation().createSnapshotToStream(os, compact);
   }
 
-  void createSnapshotToFile(const std::string& path) override {
-    plain().instrumentation().createSnapshotToFile(path);
-  }
-
-  void createSnapshotToStream(std::ostream& os) override {
-    plain().instrumentation().createSnapshotToStream(os);
-  }
-
-  std::string flushAndDisableBridgeTrafficTrace() override {
-    return const_cast<Plain&>(plain())
-        .instrumentation()
-        .flushAndDisableBridgeTrafficTrace();
+  void writeBridgeTrafficTraceToFile(
+      const std::string& fileName) const override {
+    const_cast<Plain&>(plain()).instrumentation().writeBridgeTrafficTraceToFile(
+        fileName);
   }
 
   void writeBasicBlockProfileTraceToFile(

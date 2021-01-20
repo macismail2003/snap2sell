@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "snap2sell",
-    "slug": "snap2sell",
+    "name": "Snap2Sell",
+    "slug": "Snap2Sell",
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./app/assets/icon.png",
@@ -13,22 +14,10 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./app/assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
-      }
-    },
-    "web": {
-      "favicon": "./app/assets/favicon.png"
-    },
-    "description": "Snap2Sell - This is a platform to sell new or used things",
-    "githubUrl": "https://github.com/macismail2003/snap2sell"
+    "description": "A marketplace for selling the stuff you don't need anymore."
   }
 }

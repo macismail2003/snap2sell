@@ -7,12 +7,10 @@
  * @flow
  * @format
  */
-
 'use strict';
 
 const AnimatedValue = require('../nodes/AnimatedValue');
 const AnimatedValueXY = require('../nodes/AnimatedValueXY');
-const AnimatedInterpolation = require('../nodes/AnimatedInterpolation');
 const Animation = require('./Animation');
 const SpringConfig = require('../SpringConfig');
 
@@ -22,28 +20,12 @@ const {shouldUseNativeDriver} = require('../NativeAnimatedHelper');
 
 import type {AnimationConfig, EndCallback} from './Animation';
 
-export type SpringAnimationConfig = {
-  ...AnimationConfig,
-  toValue:
-    | number
-    | AnimatedValue
-    | {
-        x: number,
-        y: number,
-        ...
-      }
-    | AnimatedValueXY
-    | AnimatedInterpolation,
+export type SpringAnimationConfig = AnimationConfig & {
+  toValue: number | AnimatedValue | {x: number, y: number} | AnimatedValueXY,
   overshootClamping?: boolean,
   restDisplacementThreshold?: number,
   restSpeedThreshold?: number,
-  velocity?:
-    | number
-    | {
-        x: number,
-        y: number,
-        ...
-      },
+  velocity?: number | {x: number, y: number},
   bounciness?: number,
   speed?: number,
   tension?: number,
@@ -54,9 +36,8 @@ export type SpringAnimationConfig = {
   delay?: number,
 };
 
-export type SpringAnimationConfigSingle = {
-  ...AnimationConfig,
-  toValue: number | AnimatedValue | AnimatedInterpolation,
+export type SpringAnimationConfigSingle = AnimationConfig & {
+  toValue: number | AnimatedValue,
   overshootClamping?: boolean,
   restDisplacementThreshold?: number,
   restSpeedThreshold?: number,
@@ -157,7 +138,7 @@ class SpringAnimation extends Animation {
     invariant(this._mass > 0, 'Mass value must be greater than 0');
   }
 
-  __getNativeAnimationConfig(): {|
+  __getNativeAnimationConfig(): $TEMPORARY$object<{|
     damping: number,
     initialVelocity: number,
     iterations: number,
@@ -168,7 +149,7 @@ class SpringAnimation extends Animation {
     stiffness: number,
     toValue: any,
     type: $TEMPORARY$string<'spring'>,
-  |} {
+  |}> {
     return {
       type: 'spring',
       overshootClamping: this._overshootClamping,
