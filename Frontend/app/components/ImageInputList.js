@@ -31,6 +31,10 @@ function ImageInputList({ imageUris = [], onRemoveImage, onAddImage }) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
+    shadowColor: "grey",
+    shadowOffset: {width: 0, height:5},
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
   },
   image: {
     marginRight: 10,

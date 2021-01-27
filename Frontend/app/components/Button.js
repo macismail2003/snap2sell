@@ -23,6 +23,10 @@ const styles = StyleSheet.create({
     padding: 15,
     width: "100%",
     marginVertical: 10,
+    shadowColor: "grey",
+    shadowOffset: {width: 0, height:5},
+    shadowOpacity: 0.4,
+    shadowRadius: 5,
   },
   text: {
     color: colors.white,

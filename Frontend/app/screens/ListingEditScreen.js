@@ -14,6 +14,7 @@ import FormImagePicker from "../components/forms/FormImagePicker";
 import listingsApi from "../api/listings";
 import useLocation from "../hooks/useLocation";
 import UploadScreen from "./UploadScreen";
+import colors from "../config/colors";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required().min(1).label("Title"),
@@ -120,22 +121,29 @@ function ListingEditScreen() {
         validationSchema={validationSchema}
       >
         <FormImagePicker name="images" />
-        <FormField maxLength={255} name="title" placeholder="Title" />
+        
+        <FormField
+          maxLength={255}
+          name="title" 
+          placeholder="Title" />
+          
         <FormField
           keyboardType="numeric"
           maxLength={8}
           name="price"
           placeholder="Price"
-          width={120}
+          // width={120}
         />
+
         <Picker
           items={categories}
           name="category"
           numberOfColumns={3}
           PickerItemComponent={CategoryPickerItem}
           placeholder="Category"
-          width="50%"
+          // width="50%"
         />
+
         <FormField
           maxLength={255}
           multiline
@@ -143,7 +151,9 @@ function ListingEditScreen() {
           numberOfLines={3}
           placeholder="Description"
         />
+
         <SubmitButton title="Post" />
+
       </Form>
     </Screen>
   );
@@ -152,6 +162,7 @@ function ListingEditScreen() {
 const styles = StyleSheet.create({
   container: {
     padding: 10,
+    backgroundColor: colors.light
   },
 });
 export default ListingEditScreen;

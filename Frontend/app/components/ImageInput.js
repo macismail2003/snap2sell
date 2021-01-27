@@ -61,7 +61,7 @@ function ImageInput({ imageUri, onChangeImage }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    backgroundColor: colors.light,
+    backgroundColor: colors.white,
     borderRadius: 15,
     height: 100,
     justifyContent: "center",
@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   image: {
     height: "100%",
     width: "100%",
+    
   },
 });
 
